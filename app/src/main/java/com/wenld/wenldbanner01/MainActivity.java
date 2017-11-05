@@ -37,5 +37,11 @@ public class MainActivity extends AppCompatActivity {
                 viewHolder.setText(R.id.tv,data);
             }
         }, datas);
+
+        wenldBanner.setCanTurn(true);
+        wenldBanner.setScrollDuration(2000);
+
+        wenldBanner.setCurrentItem(4);
+
     }
 }

@@ -25,9 +25,9 @@ public class WenldBanner extends FrameLayout {
 
     private ViewPagerScroller scroller;
 
-    boolean isRunning = true; //是否正在执行翻页中   如果是canLoop 到头了 那就不翻页
-    boolean canLoop = true;// 是否循环
-    boolean canTurn = true;   //能否执行自动翻页
+    boolean isRunning; //是否正在执行翻页中   如果是canLoop 到头了 那就不翻页
+    boolean canLoop;// 是否循环
+    boolean canTurn;   //能否能执行自动翻页
 
     public int autoTurnTime = 5000;//间隔
 
@@ -80,14 +80,18 @@ public class WenldBanner extends FrameLayout {
 
             }
         });
+        isRunning = true; //是否正在执行翻页中   如果是canLoop 到头了 那就不翻页
+        canLoop = true;// 是否循环
+        canTurn = true;   //能否能执行自动翻页
 
         turnRunnable = new TurnRunnable(this);
+        postDelayed(turnRunnable,autoTurnTime);
     }
 
     public <T> WenldBanner setPages(Holder<T> holer, List<T> data) {
         WenldPagerAdapter adapter = new WenldPagerAdapter(holer, data);
         adapter.setViewPager(viewPager);
-        viewPager.setAdapter(adapter);
+        viewPager.setAdapter(adapter,canLoop);
         return this;
     }
 
@@ -119,9 +123,9 @@ public class WenldBanner extends FrameLayout {
     public boolean dispatchTouchEvent(MotionEvent ev) {
         int action = ev.getAction();
         if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
-            stopTurning();
-        } else if (action == MotionEvent.ACTION_DOWN) {
             startTurn(autoTurnTime);
+        } else if (action == MotionEvent.ACTION_DOWN) {
+            stopTurning();
         }
         return super.dispatchTouchEvent(ev);
     }
@@ -131,14 +135,16 @@ public class WenldBanner extends FrameLayout {
     }
 
     public WenldBanner startTurn(int autoTurnTime) {
-        canTurn = true;
-        this.autoTurnTime = autoTurnTime;
-        // 如果开启了动画 那么移除动画  再重新开启
+        setRunning(true);
+        setAutoTurnTime(autoTurnTime);
+        postDelayed(turnRunnable, this.autoTurnTime);
         return this;
     }
 
     public void stopTurning() {
         //关闭翻页
+        setRunning(false);
+        removeCallbacks(turnRunnable);
     }
 
 
@@ -193,12 +199,47 @@ public class WenldBanner extends FrameLayout {
             WenldBanner wenldBanner = reference.get();
 
             if (wenldBanner != null) {
-                if (wenldBanner.viewPager != null && wenldBanner.isRunning) {
+                if (wenldBanner.viewPager != null && wenldBanner.isRunning()&&wenldBanner.isCanTurn()) {
                     int page = wenldBanner.viewPager.getCurrentItem() + 1;
                     wenldBanner.viewPager.setCurrentItem(page);
                     wenldBanner.postDelayed(wenldBanner.turnRunnable, wenldBanner.autoTurnTime);
                 }
             }
         }
+    }
+
+    public void setCurrentItem(int page){
+        viewPager.setCurrentItem(page);
+        stopTurning();
+        startTurn(getAutoTurnTime());
+
+    }
+
+    public boolean isRunning() {
+        return isRunning;
+    }
+
+    public void setRunning(boolean running) {
+        isRunning = running;
+    }
+
+    public boolean isCanLoop() {
+        return canLoop;
+    }
+
+    public void setCanLoop(boolean canLoop) {
+        this.canLoop = canLoop;
+    }
+
+    public void setCanTurn(boolean canTurn) {
+        this.canTurn = canTurn;
+    }
+
+    public int getAutoTurnTime() {
+        return autoTurnTime;
+    }
+
+    public void setAutoTurnTime(int autoTurnTime) {
+        this.autoTurnTime = autoTurnTime;
     }
 }

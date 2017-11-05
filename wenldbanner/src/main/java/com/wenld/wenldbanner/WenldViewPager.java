@@ -32,7 +32,7 @@ public class WenldViewPager extends ViewPager {
     }
 
     public int getFristItem() {
-        return canLoop ? mAdapter.getRealCount() : 0;
+        return canLoop ? 1 : 0;
     }
 
     public int getLastItem() {
@@ -132,19 +132,19 @@ public class WenldViewPager extends ViewPager {
                                    int positionOffsetPixels) {
             int realPosition = position;
 
-            if (mOuterPageChangeListener != null) {
-                if (realPosition != mAdapter.getRealCount() - 1) {
-                    mOuterPageChangeListener.onPageScrolled(realPosition,
-                            positionOffset, positionOffsetPixels);
-                } else {
-                    if (positionOffset > .5) {
-                        mOuterPageChangeListener.onPageScrolled(0, 0, 0);
-                    } else {
-                        mOuterPageChangeListener.onPageScrolled(realPosition,
-                                0, 0);
-                    }
-                }
-            }
+//            if (mOuterPageChangeListener != null) {
+//                if (realPosition != mAdapter.getRealCount() - 1) {
+//                    mOuterPageChangeListener.onPageScrolled(realPosition,
+//                            positionOffset, positionOffsetPixels);
+//                } else {
+//                    if (positionOffset > .5) {
+//                        mOuterPageChangeListener.onPageScrolled(0, 0, 0);
+//                    } else {
+//                        mOuterPageChangeListener.onPageScrolled(realPosition,
+//                                0, 0);
+//                    }
+//                }
+//            }
         }
 
         @Override

@@ -123,9 +123,9 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         if (view == null) {
             holder = holderCreator.createView(wenldViewPager.getContext(), container);
             view = holder.getConvertView();
-            view.setTag(0x10001, holder);
+            view.setTag(R.id.tag, holder);
         } else {
-            holder = (ViewHolder) view.getTag(0x10001);
+            holder = (ViewHolder) view.getTag(R.id.tag);
         }
         if (mDatas != null && !mDatas.isEmpty())
             holderCreator.UpdateUI(container.getContext(), holder, position, mDatas.get(position));
