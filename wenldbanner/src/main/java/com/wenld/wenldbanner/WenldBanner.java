@@ -11,37 +11,22 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
 import java.util.List;
 
 /**
  * Created by wenld on 2017/11/1.
+ * * blog: http://blog.csdn.net/sinat_15877283
+ * github: https://github.com/LidongWen
  */
 
-public class WenldBanner extends FrameLayout {
-    WenldViewPager viewPager;
+public class WenldBanner<T> extends FrameLayout {
+    AutoTurnViewPager viewPager;
     ViewHolder indicatorViewHolder;
+    PageIndicatorListener pageIndicatorListener;
+    List<T> mDatas;
 
     private ViewPagerScroller scroller;
-
-    boolean isRunning; //是否正在执行翻页中   如果是canLoop 到头了 那就不翻页
-    boolean canLoop;// 是否循环
-    boolean canTurn;   //能否能执行自动翻页
-
-    public int autoTurnTime = 5000;//间隔
-
-    public TurnRunnable turnRunnable;
-
-    /**
-     * 设置动画时长
-     * 设置翻页动画
-     * 控制UI位置
-     * 控制触摸
-     * <p>
-     * 监听ViewPager状态变化
-     */
-
 
     public WenldBanner(@NonNull Context context) {
         this(context, null);
@@ -60,39 +45,46 @@ public class WenldBanner extends FrameLayout {
     private void init(Context context) {
         View hView = LayoutInflater.from(context).inflate(
                 R.layout.wenld_banner, this, true);
-        viewPager = (WenldViewPager) hView.findViewById(R.id.vp_wenld_banner);
+        viewPager = (AutoTurnViewPager) hView.findViewById(R.id.vp_wenld_banner);
         indicatorViewHolder = new ViewHolder(getContext(), hView.findViewById(R.id.indicator_wenld_banner));
         initViewPagerScroll();
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                //指示器
-
-            }
-
-            @Override
-            public void onPageSelected(int position) {
-                // 指示器
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
-        isRunning = true; //是否正在执行翻页中   如果是canLoop 到头了 那就不翻页
-        canLoop = true;// 是否循环
-        canTurn = true;   //能否能执行自动翻页
-
-        turnRunnable = new TurnRunnable(this);
-        postDelayed(turnRunnable,autoTurnTime);
     }
 
-    public <T> WenldBanner setPages(Holder<T> holer, List<T> data) {
-        WenldPagerAdapter adapter = new WenldPagerAdapter(holer, data);
+    public WenldBanner setPages(Holder<T> holer, List<T> data) {
+        this.mDatas = data;
+        WenldPagerAdapter adapter = new WenldPagerAdapter(holer, mDatas);
         adapter.setViewPager(viewPager);
-        viewPager.setAdapter(adapter,canLoop);
+        viewPager.setAdapter(adapter);
         return this;
+    }
+
+    private void initAttr(AttributeSet attrs) {
+        setRunning(true); //是否正在执行翻页中   如果是canLoop=false  到头了 那就不翻页
+        setCanLoop(true);// 是否循环
+        setCanTurn(true);   //能否能执行自动翻页
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.wenldBanner);
+        if (a != null) {
+            int n = a.getIndexCount();
+            for (int i = 0; i < n; i++) {
+                int attr = a.getIndex(i);
+                if (attr == R.styleable.wenldBanner_canLoop) {
+                    setCanLoop(a.getBoolean(attr, true));
+                }
+            }
+            a.recycle();
+        }
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
+            startTurn();
+        } else if (action == MotionEvent.ACTION_DOWN) {
+            stopTurning();
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -105,46 +97,62 @@ public class WenldBanner extends FrameLayout {
         return this;
     }
 
-    private void initAttr(AttributeSet attrs) {
-        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.wenldBanner);
-        if (a != null) {
-            int n = a.getIndexCount();
-            for (int i = 0; i < n; i++) {
-                int attr = a.getIndex(i);
-                if (attr == R.styleable.wenldBanner_canLoop) {
-                    canLoop = a.getBoolean(attr, true);
-                }
-            }
-            a.recycle();
-        }
+    public void setPageIndicatorListener(PageIndicatorListener pageIndicatorListener) {
+        this.pageIndicatorListener = pageIndicatorListener;
+
     }
 
-    @Override
-    public boolean dispatchTouchEvent(MotionEvent ev) {
-        int action = ev.getAction();
-        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
-            startTurn(autoTurnTime);
-        } else if (action == MotionEvent.ACTION_DOWN) {
-            stopTurning();
-        }
-        return super.dispatchTouchEvent(ev);
-    }
-
-    public boolean isCanTurn() {
-        return canTurn;
-    }
-
-    public WenldBanner startTurn(int autoTurnTime) {
-        setRunning(true);
-        setAutoTurnTime(autoTurnTime);
-        postDelayed(turnRunnable, this.autoTurnTime);
+    /**
+     * 底部指示器资源图片
+     *
+     * @param page_indicatorId
+     */
+    public WenldBanner setPageIndicatorListener(int[] page_indicatorId) {
+//        ViewGroup indicatorParent = ((ViewGroup) indicatorViewHolder.getConvertView());
+//        indicatorParent.removeAllViews();
+//        mPointViews.clear();
+//        this.page_indicatorId = page_indicatorId;
+//        if (mDatas == null) return this;
+//        for (int count = 0; count < mDatas.size(); count++) {
+//            // 翻页指示的点
+//            ImageView pointView = new ImageView(getContext());
+//            pointView.setPadding(5, 0, 5, 0);
+//            if (mPointViews.isEmpty())
+//                pointView.setImageResource(page_indicatorId[1]);
+//            else
+//                pointView.setImageResource(page_indicatorId[0]);
+//            mPointViews.add(pointView);
+//            indicatorParent.addView(pointView);
+//        }
+//
+//        PageIndicatorListener pageIndicatorListener = new DefaultPageIndicator(mPointViews, page_indicatorId);
+//        pageIndicatorListener.onPageSelected(viewPager.getRealItem());
+//
+//        viewPager.addOnPageChangeListener(pageIndicatorListener);
         return this;
     }
 
-    public void stopTurning() {
-        //关闭翻页
-        setRunning(false);
-        removeCallbacks(turnRunnable);
+
+
+    public boolean isCanTurn() {
+        if (viewPager != null) {
+            return viewPager.isCanTurn();
+        }
+        return false;
+    }
+
+    public WenldBanner startTurn() {
+        if (viewPager != null) {
+            viewPager.startTurn();
+        }
+        return this;
+    }
+
+    public WenldBanner stopTurning() {
+        if (viewPager != null) {
+            viewPager.stopTurning();
+        }
+        return this;
     }
 
 
@@ -185,61 +193,58 @@ public class WenldBanner extends FrameLayout {
         }
     }
 
-    static class TurnRunnable implements Runnable {
-
-        private final WeakReference<WenldBanner> reference;
-
-        TurnRunnable(WenldBanner convenientBanner) {
-            this.reference = new WeakReference<WenldBanner>(convenientBanner);
-        }
-
-        @Override
-        public void run() {
-            // 开始翻页
-            WenldBanner wenldBanner = reference.get();
-
-            if (wenldBanner != null) {
-                if (wenldBanner.viewPager != null && wenldBanner.isRunning()&&wenldBanner.isCanTurn()) {
-                    int page = wenldBanner.viewPager.getCurrentItem() + 1;
-                    wenldBanner.viewPager.setCurrentItem(page);
-                    wenldBanner.postDelayed(wenldBanner.turnRunnable, wenldBanner.autoTurnTime);
-                }
-            }
-        }
-    }
-
-    public void setCurrentItem(int page){
+    public void setCurrentItem(int page) {
         viewPager.setCurrentItem(page);
         stopTurning();
-        startTurn(getAutoTurnTime());
-
+        startTurn();
     }
 
     public boolean isRunning() {
-        return isRunning;
+        if (viewPager != null) {
+            return viewPager.isRunning();
+        }
+        return false;
     }
 
-    public void setRunning(boolean running) {
-        isRunning = running;
+    public WenldBanner setRunning(boolean running) {
+        if (viewPager != null) {
+            viewPager.setRunning(running);
+        }
+        return this;
     }
 
     public boolean isCanLoop() {
-        return canLoop;
+        if (viewPager != null) {
+            return viewPager.isCanLoop();
+        }
+        return false;
     }
 
-    public void setCanLoop(boolean canLoop) {
-        this.canLoop = canLoop;
+    public WenldBanner setCanLoop(boolean canLoop) {
+        if (viewPager != null) {
+            viewPager.setCanLoop(canLoop);
+        }
+        return this;
     }
 
-    public void setCanTurn(boolean canTurn) {
-        this.canTurn = canTurn;
+    public WenldBanner setCanTurn(boolean canTurn) {
+        if (viewPager != null) {
+            viewPager.setCanTurn(canTurn);
+        }
+        return this;
     }
 
     public int getAutoTurnTime() {
-        return autoTurnTime;
+        if (viewPager != null) {
+            return viewPager.getAutoTurnTime();
+        }
+        return 5000;
     }
 
-    public void setAutoTurnTime(int autoTurnTime) {
-        this.autoTurnTime = autoTurnTime;
+    public WenldBanner setAutoTurnTime(int autoTurnTime) {
+        if (viewPager != null) {
+            viewPager.setAutoTurnTime(autoTurnTime);
+        }
+        return this;
     }
 }

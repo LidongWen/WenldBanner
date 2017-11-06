@@ -2,11 +2,19 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.wenld.wenldbanner.WenldBanner
-        android:id="@+id/wenldBanner"
+    <com.wenld.wenldbanner.AutoTurnViewPager
+        android:id="@+id/autoTurnViewPager"
         android:layout_width="match_parent"
         android:layout_height="200dp" />
+
+    <com.wenld.wenldbanner.DefaultPageIndicator
+        android:id="@+id/defaultPageIndicator"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+    </com.wenld.wenldbanner.DefaultPageIndicator>
 </LinearLayout>
