@@ -197,12 +197,13 @@ public class LoopViewPager extends ViewPager {
 
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
-        if (canLoop == false) {
-            setCurrentItem(getCurrentItem(), false);
-        }
         if (mAdapter == null) return;
+
+        int position=getCurrentItem();
+
         mAdapter.setCanLoop(canLoop);
-        mAdapter.notifyDataSetChanged();
+//        mAdapter.notifyDataSetChanged();
+        setCurrentItem(position, false);
     }
 
     public void setOnItemClickListener(OnItemClickListener onItemClickListener) {

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import java.lang.reflect.Field;
 import java.util.List;
@@ -52,9 +53,7 @@ public class WenldBanner<T> extends FrameLayout {
 
     public WenldBanner setPages(Holder<T> holer, List<T> data) {
         this.mDatas = data;
-        WenldPagerAdapter adapter = new WenldPagerAdapter(holer, mDatas);
-        adapter.setViewPager(viewPager);
-        viewPager.setAdapter(adapter);
+        viewPager.setPages(holer,mDatas);
         return this;
     }
 
@@ -97,9 +96,26 @@ public class WenldBanner<T> extends FrameLayout {
         return this;
     }
 
+    /**
+     * 指示器的方向
+     * @param align  三个方向：居左 （RelativeLayout.ALIGN_PARENT_LEFT），居中 （RelativeLayout.CENTER_HORIZONTAL），居右 （RelativeLayout.ALIGN_PARENT_RIGHT）
+     * @return
+     */
+    public WenldBanner setPageIndicatorAlign(PageIndicatorAlign align) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams)  indicatorViewHolder.getConvertView().getLayoutParams();
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT, align == PageIndicatorAlign.ALIGN_PARENT_LEFT ? RelativeLayout.TRUE : 0);
+        layoutParams.addRule(RelativeLayout.ALIGN_PARENT_RIGHT, align == PageIndicatorAlign.ALIGN_PARENT_RIGHT ? RelativeLayout.TRUE : 0);
+        layoutParams.addRule(RelativeLayout.CENTER_HORIZONTAL, align == PageIndicatorAlign.CENTER_HORIZONTAL ? RelativeLayout.TRUE : 0);
+        indicatorViewHolder.getConvertView().setLayoutParams(layoutParams);
+        return this;
+    }
+
+    public enum PageIndicatorAlign{
+        ALIGN_PARENT_LEFT,ALIGN_PARENT_RIGHT,CENTER_HORIZONTAL
+    }
+
     public void setPageIndicatorListener(PageIndicatorListener pageIndicatorListener) {
         this.pageIndicatorListener = pageIndicatorListener;
-
     }
 
     /**

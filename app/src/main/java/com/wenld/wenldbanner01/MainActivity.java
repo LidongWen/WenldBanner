@@ -49,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         autoTurnViewPager.addOnPageChangeListener(defaultPageIndicator);
         defaultPageIndicator.onPageSelected(autoTurnViewPager.getCurrentItem());
+
+
 //        autoTurnViewPager.setAutoTurnTime(20000);
 //        autoTurnViewPager.setCurrentItem(4);
 
