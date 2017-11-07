@@ -3,6 +3,11 @@ package com.wenld.wenldbanner;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
+
+import com.wenld.wenldbanner.adapter.WenldPagerAdapter;
+import com.wenld.wenldbanner.helper.Holder;
+import com.wenld.wenldbanner.helper.ViewPagerScroller;
 
 import java.lang.ref.WeakReference;
 import java.lang.reflect.Field;
@@ -31,10 +36,26 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     public AutoTurnViewPager(Context context, AttributeSet attrs) {
         super(context, attrs);
         turnRunnable = new AutoTurnViewPager.TurnRunnable(this);
+        setRunning(true);
+        setCanTurn(true);
     }
 
-    public AutoTurnViewPager setPages(Holder<T> holer, List<T> data) {
-        WenldPagerAdapter adapter = new WenldPagerAdapter(holer, data);
+    public AutoTurnViewPager setPages(Holder<T> holer) {
+        WenldPagerAdapter adapter = new WenldPagerAdapter(holer);
+        initViewPagerScroll();
+        adapter.setViewPager(this);
+        setAdapter(adapter);
+        return this;
+    }
+
+    public AutoTurnViewPager setmDatas(List<T> data) {
+        getAdapter().setmDatas(data);
+        return this;
+    }
+
+    protected AutoTurnViewPager setPages(Holder<T> holer, List<T> data) {
+        WenldPagerAdapter adapter = new WenldPagerAdapter(holer);
+        setmDatas(data);
         initViewPagerScroll();
         adapter.setViewPager(this);
         setAdapter(adapter);
@@ -46,7 +67,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
         private final WeakReference<AutoTurnViewPager> reference;
 
         TurnRunnable(AutoTurnViewPager autoTurnViewPager) {
-            this.reference = new WeakReference<AutoTurnViewPager>(autoTurnViewPager);
+            this.reference = new WeakReference(autoTurnViewPager);
         }
 
         @Override
@@ -70,7 +91,18 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     @Override
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
-        postDelayed(turnRunnable, autoTurnTime);
+        startTurn();
+    }
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        int action = ev.getAction();
+        if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL || action == MotionEvent.ACTION_OUTSIDE) {
+            startTurn();
+        } else if (action == MotionEvent.ACTION_DOWN) {
+            stopTurning();
+        }
+        return super.dispatchTouchEvent(ev);
     }
 
     /**
@@ -131,21 +163,24 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
         return isRunning;
     }
 
-    public void setRunning(boolean running) {
+    public AutoTurnViewPager setRunning(boolean running) {
         isRunning = running;
+        return this;
     }
 
 
-    public void setCanTurn(boolean canTurn) {
+    public AutoTurnViewPager setCanTurn(boolean canTurn) {
         this.canTurn = canTurn;
+        return this;
     }
 
     public int getAutoTurnTime() {
         return autoTurnTime;
     }
 
-    public void setAutoTurnTime(int autoTurnTime) {
+    public AutoTurnViewPager setAutoTurnTime(int autoTurnTime) {
         this.autoTurnTime = autoTurnTime;
+        return this;
     }
 
     public AutoTurnViewPager setScrollDuration(int duration) {

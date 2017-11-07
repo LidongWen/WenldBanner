@@ -1,20 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context="com.wenld.wenldbanner01.MainActivity">
 
-    <com.wenld.wenldbanner.AutoTurnViewPager
-        android:id="@+id/autoTurnViewPager"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center">
 
-    <com.wenld.wenldbanner.DefaultPageIndicator
-        android:id="@+id/defaultPageIndicator"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startCommonBannerActivity"
+            android:text="CommonBanner"
+            />
 
-    </com.wenld.wenldbanner.DefaultPageIndicator>
-</LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:onClick="startCustomUse"
+            android:text="CustomUse"
+            />
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>

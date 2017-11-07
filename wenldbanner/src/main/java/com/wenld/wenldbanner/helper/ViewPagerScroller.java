@@ -1,4 +1,4 @@
-package com.wenld.wenldbanner;
+package com.wenld.wenldbanner.helper;
 
 import android.content.Context;
 import android.view.animation.Interpolator;

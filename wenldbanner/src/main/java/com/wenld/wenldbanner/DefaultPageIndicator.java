@@ -5,7 +5,6 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -19,12 +18,12 @@ import java.util.List;
  * github: https://github.com/LidongWen
  */
 
-public class DefaultPageIndicator<T> extends LinearLayout implements PageIndicatorListener {
+public class DefaultPageIndicator<T> extends LinearLayout implements PageIndicatorListener<T> {
 
     List<T> mDatas;
     private int[] pageIndicatorRes;
     private ArrayList<ImageView> mPointViews = new ArrayList<>();
-
+    LinearLayout hView;
     int position = -1;
 
     public DefaultPageIndicator(@NonNull Context context) {
@@ -41,8 +40,11 @@ public class DefaultPageIndicator<T> extends LinearLayout implements PageIndicat
     }
 
     private void init(Context context) {
-        View hView = LayoutInflater.from(context).inflate(
+        hView = (LinearLayout) LayoutInflater.from(context).inflate(
                 R.layout.default_indicator, this, true);
+        hView.setOrientation(LinearLayout.HORIZONTAL);
+        pageIndicatorRes=new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused};
+//        hView.setGravity(Gravity.CENTER);
     }
 
     public DefaultPageIndicator setPageIndicator(int[] page_indicatorId) {
@@ -51,15 +53,19 @@ public class DefaultPageIndicator<T> extends LinearLayout implements PageIndicat
         return this;
     }
 
-    public DefaultPageIndicator setmDatas(List<T> mDatas) {
+    public void setmDatas(List<T> mDatas) {
         this.mDatas = mDatas;
         notifyDataChangedView();
-        return this;
+    }
+
+    @Override
+    public List<T> getmDatas() {
+        return null;
     }
 
     private void notifyDataChangedView() {
         mPointViews.clear();
-        removeAllViews();
+        hView.removeAllViews();
         if (pageIndicatorRes == null) return;
         if (mDatas == null) return;
         for (int count = 0; count < mDatas.size(); count++) {
@@ -71,7 +77,7 @@ public class DefaultPageIndicator<T> extends LinearLayout implements PageIndicat
             else
                 pointView.setImageResource(pageIndicatorRes[0]);
             mPointViews.add(pointView);
-            addView(pointView);
+            hView.addView(pointView);
         }
         onPageSelected(position);
         return;

@@ -1,8 +1,13 @@
-package com.wenld.wenldbanner;
+package com.wenld.wenldbanner.adapter;
 
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.wenld.wenldbanner.helper.Holder;
+import com.wenld.wenldbanner.LoopViewPager;
+import com.wenld.wenldbanner.R;
+import com.wenld.wenldbanner.helper.ViewHolder;
 
 import java.util.List;
 
@@ -130,11 +135,21 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         this.wenldViewPager = viewPager;
     }
 
+    public WenldPagerAdapter(Holder holderCreator){
+        this.holderCreator = holderCreator;
+    }
     public WenldPagerAdapter(Holder holderCreator, List<T> datas) {
         this.holderCreator = holderCreator;
         this.mDatas = datas;
     }
 
+    public void setmDatas(List<T> mDatas) {
+        this.mDatas = mDatas;
+    }
+
+    public List<T> getmDatas() {
+        return mDatas;
+    }
 
     public View getView(int position, View view, ViewGroup container) {
         ViewHolder holder = null;
@@ -149,5 +164,6 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
             holderCreator.UpdateUI(container.getContext(), holder, position, mDatas.get(position));
         return view;
     }
+
 
 }

@@ -1,11 +1,12 @@
 package com.wenld.wenldbanner;
 
 import android.content.Context;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.MotionEvent;
+
+import com.wenld.wenldbanner.adapter.WenldPagerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +19,7 @@ import java.util.List;
  */
 
 public class LoopViewPager extends ViewPager {
-    final String TAG = "WenldViewPager";
+    final String TAG = "LoopViewPager";
     private List<OnPageChangeListener> mOuterPageChangeListeners;
     private OnItemClickListener onItemClickListener;
     private WenldPagerAdapter mAdapter;
@@ -26,15 +27,14 @@ public class LoopViewPager extends ViewPager {
     private boolean isCanScroll = true;
     private boolean canLoop = true;
 
-    public void setAdapter(PagerAdapter adapter) {
-        mAdapter = (WenldPagerAdapter) adapter;
+    public void setAdapter(WenldPagerAdapter adapter) {
+        mAdapter = adapter;
         mAdapter.setCanLoop(canLoop);
         mAdapter.setViewPager(this);
         super.setAdapter(mAdapter);
 
         setCurrentItem(0, false);
     }
-
 
     public boolean isCanScroll() {
         return isCanScroll;
@@ -139,10 +139,11 @@ public class LoopViewPager extends ViewPager {
 
         @Override
         public void onPageSelected(int position) {
-            Log.d(TAG, String.format("onPageSelected  %s", position));
+
             int realPosition = getRealItem(position);
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
+                Log.d(TAG, String.format("onPageSelected mPreviousPosition  %s", mPreviousPosition));
                 for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                     getmOuterPageChangeListeners().get(i).onPageSelected(realPosition);
                 }
@@ -202,7 +203,6 @@ public class LoopViewPager extends ViewPager {
         int position=getCurrentItem();
 
         mAdapter.setCanLoop(canLoop);
-//        mAdapter.notifyDataSetChanged();
         setCurrentItem(position, false);
     }
 

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <com.wenld.wenldbanner.AutoTurnViewPager
+        android:id="@+id/autoTurnViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="200dp" />
+
+    <com.wenld.wenldbanner.DefaultPageIndicator
+        android:id="@+id/defaultPageIndicator"
+        android:layout_width="match_parent"
+        android:gravity="center"
+        android:background="#35000000"
+        android:layout_gravity="bottom"
+        android:layout_height="40dp"/>
+
+</FrameLayout>
