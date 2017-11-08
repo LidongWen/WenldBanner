@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.wenld.wenldbanner01.CommonBannerActivity">
 
     <com.wenld.wenldbanner.CommonBanner
@@ -11,4 +12,21 @@
         android:layout_width="match_parent"
         android:layout_height="200dp" />
 
+    <RadioGroup
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/radioGroup">
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="默认指示器"
+            android:checked="true"
+            android:id="@+id/default_dicator"
+            />
+        <RadioButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义指示器"
+            android:id="@+id/custom_dicator"/>
+    </RadioGroup>
 </LinearLayout>

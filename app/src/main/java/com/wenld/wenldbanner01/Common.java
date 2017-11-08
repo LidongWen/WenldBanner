@@ -20,22 +20,28 @@ public class Common {
     public static List<String> datas;
     public static Holder<String> holder;
     public static int[] indicatorGrouop;
+    public static int[] bgColors;
+    public static int[] indicatorColors;
+
     static {
         datas = new ArrayList<>();
-        datas.add("123456");
-        datas.add("1234567");
-        datas.add("1234568");
+        datas.add("第一个");
+        datas.add("第二个");
+        datas.add("第三个");
+
+        bgColors = new int[]{0xff66cccc, 0xffccff66, 0xffff99cc};
+        indicatorColors = new int[]{0xff993366, 0xffffff66, 0xff666633};
 
         holder = new Holder<String>() {
             @Override
-            public ViewHolder createView(Context context, ViewGroup parent,int pos) {
-                return ViewHolder.createViewHolder(context, parent, R.layout.layout_text,getViewType(pos));
+            public ViewHolder createView(Context context, ViewGroup parent, int pos) {
+                return ViewHolder.createViewHolder(context, parent, R.layout.layout_text, getViewType(pos));
             }
 
             @Override
             public void UpdateUI(Context context, ViewHolder viewHolder, int position, String data) {
                 viewHolder.setText(R.id.tv, data);
-                viewHolder.setBackgroundRes(R.id.tv,R.color.colorAccent);
+                viewHolder.setBackgroundColor(R.id.tv, bgColors[position % bgColors.length]);
             }
 
             @Override
@@ -44,6 +50,6 @@ public class Common {
             }
         };
 
-        indicatorGrouop=new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused};
+        indicatorGrouop = new int[]{R.mipmap.ic_page_indicator, R.mipmap.ic_page_indicator_focused};
     }
 }

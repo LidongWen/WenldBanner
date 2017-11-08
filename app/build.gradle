@@ -30,4 +30,5 @@ dependencies {
     compile deps.constraintLayout
     compile project(path: ':wenldbanner')
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
+    compile 'com.romandanylyk:pageindicatorview:0.2.0'
 }
