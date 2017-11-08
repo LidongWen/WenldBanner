@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 
 public interface Holder<T>{
     ViewHolder createView(Context context,
-                          ViewGroup parent);
+                          ViewGroup parent,int position);
     void UpdateUI(Context context, ViewHolder viewHolder, int position, T data);
+    int getViewType(int position);
 }

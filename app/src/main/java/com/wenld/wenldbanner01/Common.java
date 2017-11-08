@@ -28,14 +28,19 @@ public class Common {
 
         holder = new Holder<String>() {
             @Override
-            public ViewHolder createView(Context context, ViewGroup parent) {
-                return ViewHolder.createViewHolder(context, parent, R.layout.layout_text);
+            public ViewHolder createView(Context context, ViewGroup parent,int pos) {
+                return ViewHolder.createViewHolder(context, parent, R.layout.layout_text,getViewType(pos));
             }
 
             @Override
             public void UpdateUI(Context context, ViewHolder viewHolder, int position, String data) {
                 viewHolder.setText(R.id.tv, data);
                 viewHolder.setBackgroundRes(R.id.tv,R.color.colorAccent);
+            }
+
+            @Override
+            public int getViewType(int position) {
+                return 0;
             }
         };
 

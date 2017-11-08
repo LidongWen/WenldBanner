@@ -2,7 +2,7 @@ package com.wenld.wenldbanner01;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Gravity;
+import android.widget.RelativeLayout;
 
 import com.wenld.wenldbanner.CommonBanner;
 import com.wenld.wenldbanner.DefaultPageIndicator;
@@ -23,6 +23,6 @@ public class CommonBannerActivity extends AppCompatActivity {
         commonBanner.setPages(Common.holder, Common.datas)
                 .setPageIndicatorListener(defaultPageIndicator)
                 .setIndicatorView(defaultPageIndicator)
-                .setPageIndicatorAlign(Gravity.CENTER | Gravity.BOTTOM);
+                .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);
     }
 }

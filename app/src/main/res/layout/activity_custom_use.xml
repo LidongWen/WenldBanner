@@ -3,13 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
+    android:clipChildren="false"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <com.wenld.wenldbanner.AutoTurnViewPager
         android:id="@+id/autoTurnViewPager"
-        android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_width="250dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:layout_height="200dp"
+        android:layout_gravity="center"/>
 
     <com.wenld.wenldbanner.DefaultPageIndicator
         android:id="@+id/defaultPageIndicator"

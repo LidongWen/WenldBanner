@@ -8,7 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import com.wenld.wenldbanner.helper.Holder;
 import com.wenld.wenldbanner.helper.UIContact;
@@ -21,7 +21,7 @@ import java.util.List;
  * github: https://github.com/LidongWen
  */
 
-public class CommonBanner<T> extends FrameLayout {
+public class CommonBanner<T> extends RelativeLayout {
     AutoTurnViewPager viewPager;
     PageIndicatorListener pageIndicatorListener;
     View indicatorView;
@@ -46,7 +46,6 @@ public class CommonBanner<T> extends FrameLayout {
         View hView = LayoutInflater.from(context).inflate(
                 R.layout.wenld_banner, this, true);
         viewPager = (AutoTurnViewPager) hView.findViewById(R.id.vp_wenld_banner);
-
     }
 
     public CommonBanner setPages(Holder<T> holer, List<T> data) {
@@ -84,12 +83,15 @@ public class CommonBanner<T> extends FrameLayout {
     }
 
     /**
-     * @param gravityAlign Gravity
+     * @param gravityAlign RelativeLayout
      * @return
      */
-    public CommonBanner setPageIndicatorAlign(int gravityAlign) {
-        LayoutParams layoutParams = (LayoutParams) indicatorView.getLayoutParams();
-        layoutParams.gravity = gravityAlign;
+    public CommonBanner setPageIndicatorAlign(int ...gravityAlign) {
+        RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) indicatorView.getLayoutParams();
+        for (int i=0;i<gravityAlign.length;i++) {
+            layoutParams.addRule(gravityAlign[i]);
+        }
+        layoutParams.setMargins(5,5,5,5);
         indicatorView.setLayoutParams(layoutParams);
         return this;
     }

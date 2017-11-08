@@ -18,11 +18,10 @@ public class CustomUseActivity extends AppCompatActivity {
         autoTurnViewPager = (AutoTurnViewPager) findViewById(R.id.autoTurnViewPager);
         defaultPageIndicator = (DefaultPageIndicator) findViewById(R.id.defaultPageIndicator);
 
-
         autoTurnViewPager.setPages(Common.holder)
                 .setCanTurn(true)
-                .setScrollDuration(2000)
-                .setPageTransformer(new ScaleTransformer());
+                .setScrollDuration(2000);
+        autoTurnViewPager.setPageTransformer(new ZoomOutPageTransformer());
 
         defaultPageIndicator.setPageIndicator(Common.indicatorGrouop);
 
