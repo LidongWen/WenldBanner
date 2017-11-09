@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.wenld.wenldbanner.LoopViewPager;
+import com.wenld.wenldbanner.OnPageClickListener;
 import com.wenld.wenldbanner.helper.Holder;
 import com.wenld.wenldbanner.helper.ViewHolder;
 
@@ -26,6 +27,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
     LoopViewPager wenldViewPager;
     private LinkedList<ViewHolder> mViewHolderCache = null;
     private LinkedList<ViewHolder> mViewHolderUsedCache = null;
+    private OnPageClickListener onItemClickListener;
 
     @Override
     public int getCount() {
@@ -43,23 +45,17 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         return view;
     }
 
-//    @Override
-//    public float getPageWidth(int position) {
-//        return 0.7f;
-//    }
-    //    @Override
-//    public void finishUpdate(ViewGroup container) {
-//        int position = wenldViewPager.getCurrentItem();
-//        Log.e(TAG, String.format("finishUpdate : %s", position));
-//
-//        position = changedAdapterPostiton(position);
-//
-//        try {
-//            wenldViewPager.setCurrentItem(position, false);
-//        } catch (IllegalStateException e) {
-//
-//        }
-//    }
+    public boolean myNotify = false;
+
+
+    @Override
+    public int getItemPosition(Object object) {
+        if (!myNotify) {
+            return super.getItemPosition(object);
+        } else {
+            return POSITION_NONE;
+        }
+    }
 
     public int realPostiton2AdapterPostiton(int position) {
         if (canLoop) {
@@ -149,6 +145,10 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         this.canLoop = canLoop;
     }
 
+    public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
+        this.onItemClickListener = onItemClickListener;
+    }
+
     public void setViewPager(LoopViewPager viewPager) {
         this.wenldViewPager = viewPager;
     }
@@ -174,7 +174,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     public View getView(int position, ViewGroup container) {
         ViewHolder holder = null;
-        int realPosition = adapterPostiton2RealDataPosition(position);
+        final int realPosition = adapterPostiton2RealDataPosition(position);
         int viewType = holderCreator.getViewType(realPosition);
 
         for (int i = mViewHolderCache.size() - 1; i >= 0; i--) {
@@ -198,11 +198,19 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
             holder = holderCreator.createView(wenldViewPager.getContext(), container, realPosition);
         }
         mViewHolderUsedCache.add(holder);
+        holder.getConvertView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(realPosition);
+                }
+            }
+        });
 
         if (mDatas != null && !mDatas.isEmpty()) {
-            holderCreator.UpdateUI(container.getContext(), holder, realPosition, mDatas.get(realPosition));
-            if (position != holder.getPosition()) {
+            if (myNotify || position != holder.getPosition()) {
                 // 恢复一下状态
+                holderCreator.UpdateUI(container.getContext(), holder, realPosition, mDatas.get(realPosition));
             }
         }
         holder.setPosition(position);

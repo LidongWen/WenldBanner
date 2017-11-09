@@ -21,10 +21,9 @@ import java.util.List;
 public class LoopViewPager extends ViewPager {
     final String TAG = "LoopViewPager";
     private List<OnPageChangeListener> mOuterPageChangeListeners;
-    private OnItemClickListener onItemClickListener;
     private WenldPagerAdapter mAdapter;
 
-    private boolean isCanScroll = true;
+    private boolean isTouchScroll = true;
     private boolean canLoop = true;
 
     public void setAdapter(WenldPagerAdapter adapter) {
@@ -36,16 +35,14 @@ public class LoopViewPager extends ViewPager {
         setCurrentItem(0, false);
     }
 
-    public boolean isCanScroll() {
-        return isCanScroll;
+    public boolean isTouchScroll() {
+        return isTouchScroll;
     }
 
-    public void setCanScroll(boolean isCanScroll) {
-        this.isCanScroll = isCanScroll;
+    public void setTouchScroll(boolean isCanScroll) {
+        this.isTouchScroll = isCanScroll;
     }
 
-    private float oldX = 0, newX = 0;
-    private static final float sens = 5;
 
     @Override
     public void setCurrentItem(int item) {
@@ -68,23 +65,7 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if (isCanScroll) {
-            if (onItemClickListener != null) {
-                switch (ev.getAction()) {
-                    case MotionEvent.ACTION_DOWN:
-                        oldX = ev.getX();
-                        break;
-
-                    case MotionEvent.ACTION_UP:
-                        newX = ev.getX();
-                        if (Math.abs(oldX - newX) < sens) {
-                            onItemClickListener.onItemClick(getCurrentItem());
-                        }
-                        oldX = 0;
-                        newX = 0;
-                        break;
-                }
-            }
+        if (isTouchScroll) {
             return super.onTouchEvent(ev);
         } else
             return false;
@@ -92,7 +73,7 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
-        if (isCanScroll)
+        if (isTouchScroll)
             return super.onInterceptTouchEvent(ev);
         else
             return false;
@@ -199,18 +180,14 @@ public class LoopViewPager extends ViewPager {
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
         if (mAdapter == null) return;
-
         int position=getCurrentItem();
+        Log.e(TAG,"setCanLoop "+ position);
 
         mAdapter.setCanLoop(canLoop);
+        mAdapter.myNotify=true;
+        mAdapter.notifyDataSetChanged();
         setCurrentItem(position, false);
+        mAdapter.myNotify=false;
     }
 
-    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
-        this.onItemClickListener = onItemClickListener;
-    }
-
-    public interface OnItemClickListener {
-        void onItemClick(int position);
-    }
 }

@@ -86,12 +86,12 @@ public class CommonBanner<T> extends RelativeLayout {
      * @param gravityAlign RelativeLayout
      * @return
      */
-    public CommonBanner setPageIndicatorAlign(int ...gravityAlign) {
+    public CommonBanner setPageIndicatorAlign(int... gravityAlign) {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) indicatorView.getLayoutParams();
-        for (int i=0;i<gravityAlign.length;i++) {
+        for (int i = 0; i < gravityAlign.length; i++) {
             layoutParams.addRule(gravityAlign[i]);
         }
-        layoutParams.setMargins(5,5,5,5);
+        layoutParams.setMargins(5, 5, 5, 5);
         indicatorView.setLayoutParams(layoutParams);
         return this;
     }
@@ -201,6 +201,12 @@ public class CommonBanner<T> extends RelativeLayout {
         return this;
     }
 
+    public void setTouchScroll(boolean isCanScroll) {
+        if (viewPager != null) {
+            viewPager.setTouchScroll(isCanScroll);
+        }
+    }
+
     public int getAutoTurnTime() {
         if (viewPager != null) {
             return viewPager.getAutoTurnTime();
@@ -214,4 +220,5 @@ public class CommonBanner<T> extends RelativeLayout {
         }
         return this;
     }
+
 }

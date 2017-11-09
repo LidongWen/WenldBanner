@@ -79,6 +79,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
                 if (autoTurnViewPager.isRunning() && autoTurnViewPager.isCanTurn()) {
                     int page = autoTurnViewPager.getCurrentItem() + 1;
                     if (autoTurnViewPager.getAdapter().getCount() <= page) {
+                        autoTurnViewPager.setRunning(false);
                         return;
                     }
                     autoTurnViewPager.setCurrentItem(page);
@@ -170,8 +171,23 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
 
 
     public AutoTurnViewPager setCanTurn(boolean canTurn) {
+        if(this.canTurn==canTurn)
+            return this;
         this.canTurn = canTurn;
+        if(canTurn){
+            startTurn();
+        }else{
+            stopTurning();
+        }
         return this;
+    }
+
+    @Override
+    public void setCanLoop(boolean canLoop) {
+        if(!isRunning()){
+            startTurn();
+        }
+        super.setCanLoop(canLoop);
     }
 
     public int getAutoTurnTime() {

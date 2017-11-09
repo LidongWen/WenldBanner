@@ -1,32 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.wenld.wenldbanner01.CommonBannerActivity">
+    android:layout_height="match_parent">
 
-    <com.wenld.wenldbanner.CommonBanner
-        android:id="@+id/commonBanner"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.wenld.wenldbanner01.CommonBannerActivity">
 
-    <RadioGroup
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/radioGroup">
-        <RadioButton
+        <com.wenld.wenldbanner.CommonBanner
+            android:id="@+id/commonBanner"
+            android:layout_width="match_parent"
+            android:layout_height="200dp" />
+
+        <CheckBox
+            android:id="@+id/cb_loop"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="默认指示器"
             android:checked="true"
-            android:id="@+id/default_dicator"
-            />
-        <RadioButton
+            android:text="view循环" />
+
+        <CheckBox
+            android:id="@+id/cb_autoTurn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="自定义指示器"
-            android:id="@+id/custom_dicator"/>
-    </RadioGroup>
-</LinearLayout>
+            android:checked="true"
+            android:text="自动翻页" />
+
+        <CheckBox
+            android:id="@+id/cb_touchScroll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:text="触摸滑动" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="设置指示器: (无限 都可自定义)" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp">
+
+            <RadioButton
+                android:id="@+id/default_dicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="默认指示器" />
+
+            <RadioButton
+                android:id="@+id/custom_dicator"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="自定义指示器" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="设置指示器位置（RelativeLayout Gravity属性）" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp">
+
+            <RadioButton
+                android:id="@+id/dicator_gravity_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL" />
+
+            <RadioButton
+                android:id="@+id/dicator_gravity_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="RelativeLayout.ALIGN_PARENT_BOTTOM" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="设置翻页动画: (无限 都可自定义)" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp">
+
+            <RadioButton
+                android:id="@+id/transformer_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="翻页动画1" />
+
+            <RadioButton
+                android:id="@+id/transformer_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="翻页动画2" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="设置 切换间隔" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp">
+
+            <RadioButton
+                android:id="@+id/time_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="5000" />
+
+            <RadioButton
+                android:id="@+id/time_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="10000" />
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:text="设置 翻页速度" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp">
+
+            <RadioButton
+                android:id="@+id/speeed_01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:checked="true"
+                android:text="1000" />
+
+            <RadioButton
+                android:id="@+id/speeed_02"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2000" />
+        </RadioGroup>
+    </LinearLayout>
+</android.support.v4.widget.NestedScrollView>
