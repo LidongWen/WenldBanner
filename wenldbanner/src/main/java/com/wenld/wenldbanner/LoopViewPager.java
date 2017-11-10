@@ -189,5 +189,8 @@ public class LoopViewPager extends ViewPager {
         setCurrentItem(position, false);
         mAdapter.myNotify=false;
     }
-
+    public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
+        if (mAdapter == null)
+            mAdapter.setOnItemClickListener(onItemClickListener);
+    }
 }

@@ -246,4 +246,9 @@ public class WenldBanner<T> extends RelativeLayout {
         }
         return false;
     }
+    public void setOnItemClickListener(OnPageClickListener onItemClickListener){
+        if (viewPager != null) {
+            viewPager.setOnItemClickListener(onItemClickListener);
+        }
+    }
 }
