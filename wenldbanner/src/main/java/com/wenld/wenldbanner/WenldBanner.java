@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * Created by wenld on 2017/11/1.
- * * blog: http://blog.csdn.net/sinat_15877283
- * github: https://github.com/LidongWen
+ *  http://www.jianshu.com/u/99f514ea81b3
+ *  github: https://github.com/LidongWen
  */
 
 public class WenldBanner<T> extends RelativeLayout {
