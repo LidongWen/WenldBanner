@@ -21,25 +21,25 @@ import java.util.List;
  * github: https://github.com/LidongWen
  */
 
-public class CommonBanner<T> extends RelativeLayout {
+public class WenldBanner<T> extends RelativeLayout {
     AutoTurnViewPager viewPager;
     PageIndicatorListener pageIndicatorListener;
     View indicatorView;
     List<T> mDatas;
     UIContact uiContact;
 
-    public CommonBanner(@NonNull Context context) {
+    public WenldBanner(@NonNull Context context) {
         this(context, null);
     }
 
-    public CommonBanner(@NonNull Context context, @Nullable AttributeSet attrs) {
+    public WenldBanner(@NonNull Context context, @Nullable AttributeSet attrs) {
         this(context, attrs, 0);
     }
 
-    public CommonBanner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public WenldBanner(@NonNull Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        initAttr(attrs);
         init(context);
+        initAttr(attrs);
     }
 
     private void init(Context context) {
@@ -48,7 +48,7 @@ public class CommonBanner<T> extends RelativeLayout {
         viewPager = (AutoTurnViewPager) hView.findViewById(R.id.vp_wenld_banner);
     }
 
-    public CommonBanner setPages(Holder<T> holer, List<T> data) {
+    public WenldBanner setPages(Holder<T> holer, List<T> data) {
         viewPager.setPages(holer);
         setData(data);
         return this;
@@ -66,6 +66,16 @@ public class CommonBanner<T> extends RelativeLayout {
                 int attr = a.getIndex(i);
                 if (attr == R.styleable.wenldBanner_canLoop) {
                     setCanLoop(a.getBoolean(attr, true));
+                } else if (attr == R.styleable.wenldBanner_canTurn) {
+                    setCanTurn(a.getBoolean(attr, true));
+                } else if (attr == R.styleable.wenldBanner_isTouchScroll) {
+                    setTouchScroll(a.getBoolean(attr, true));
+                } else if (attr == R.styleable.wenldBanner_autoTurnTime) {
+                    setAutoTurnTime(a.getInteger(attr, getAutoTurnTime()));
+                } else if (attr == R.styleable.wenldBanner_scrollDuration) {
+                    setScrollDuration(a.getInteger(attr, getScrollDuration()));
+                } else if (attr == R.styleable.wenldBanner_reverse) {
+                    setReverse(a.getBoolean(attr, false));
                 }
             }
             a.recycle();
@@ -77,7 +87,7 @@ public class CommonBanner<T> extends RelativeLayout {
      *
      * @param visible
      */
-    public CommonBanner setInvaildViewVisible(boolean visible) {
+    public WenldBanner setInvaildViewVisible(boolean visible) {
         indicatorView.setVisibility(visible ? View.VISIBLE : View.GONE);
         return this;
     }
@@ -86,7 +96,7 @@ public class CommonBanner<T> extends RelativeLayout {
      * @param gravityAlign RelativeLayout
      * @return
      */
-    public CommonBanner setPageIndicatorAlign(int... gravityAlign) {
+    public WenldBanner setPageIndicatorAlign(int... gravityAlign) {
         RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) indicatorView.getLayoutParams();
         for (int i = 0; i < gravityAlign.length; i++) {
             layoutParams.addRule(gravityAlign[i]);
@@ -96,14 +106,14 @@ public class CommonBanner<T> extends RelativeLayout {
         return this;
     }
 
-    public CommonBanner setIndicatorView(View indicatorView) {
+    public WenldBanner setIndicatorView(View indicatorView) {
         removeView(this.indicatorView);
         this.indicatorView = indicatorView;
         addView(this.indicatorView);
         return this;
     }
 
-    public CommonBanner setPageIndicatorListener(PageIndicatorListener pageIndicatorListener) {
+    public WenldBanner setPageIndicatorListener(PageIndicatorListener pageIndicatorListener) {
         this.pageIndicatorListener = pageIndicatorListener;
         getUiContact().addListener(pageIndicatorListener);
         return this;
@@ -124,14 +134,14 @@ public class CommonBanner<T> extends RelativeLayout {
         return false;
     }
 
-    public CommonBanner startTurn() {
+    public WenldBanner startTurn() {
         if (viewPager != null) {
             viewPager.startTurn();
         }
         return this;
     }
 
-    public CommonBanner stopTurning() {
+    public WenldBanner stopTurning() {
         if (viewPager != null) {
             viewPager.stopTurning();
         }
@@ -149,16 +159,19 @@ public class CommonBanner<T> extends RelativeLayout {
      * @param transformer
      * @return
      */
-    public CommonBanner setPageTransformer(ViewPager.PageTransformer transformer) {
+    public WenldBanner setPageTransformer(ViewPager.PageTransformer transformer) {
         viewPager.setPageTransformer(true, transformer);
         return this;
     }
 
-    public CommonBanner setScrollDuration(int duration) {
+    public WenldBanner setScrollDuration(int duration) {
         viewPager.setScrollDuration(duration);
         return this;
     }
 
+    public int getScrollDuration() {
+        return viewPager.getScrollDuration();
+    }
 
     public void setCurrentItem(int page) {
         viewPager.setCurrentItem(page);
@@ -173,7 +186,7 @@ public class CommonBanner<T> extends RelativeLayout {
         return false;
     }
 
-    public CommonBanner setRunning(boolean running) {
+    public WenldBanner setRunning(boolean running) {
         if (viewPager != null) {
             viewPager.setRunning(running);
         }
@@ -187,14 +200,14 @@ public class CommonBanner<T> extends RelativeLayout {
         return false;
     }
 
-    public CommonBanner setCanLoop(boolean canLoop) {
+    public WenldBanner setCanLoop(boolean canLoop) {
         if (viewPager != null) {
             viewPager.setCanLoop(canLoop);
         }
         return this;
     }
 
-    public CommonBanner setCanTurn(boolean canTurn) {
+    public WenldBanner setCanTurn(boolean canTurn) {
         if (viewPager != null) {
             viewPager.setCanTurn(canTurn);
         }
@@ -214,11 +227,23 @@ public class CommonBanner<T> extends RelativeLayout {
         return 5000;
     }
 
-    public CommonBanner setAutoTurnTime(int autoTurnTime) {
+    public WenldBanner setAutoTurnTime(int autoTurnTime) {
         if (viewPager != null) {
             viewPager.setAutoTurnTime(autoTurnTime);
         }
         return this;
     }
 
+    public void setReverse(boolean reverse) {
+        if (viewPager != null) {
+            viewPager.setReverse(reverse);
+        }
+    }
+
+    public boolean isReverse() {
+        if (viewPager != null) {
+            return viewPager.isReverse();
+        }
+        return false;
+    }
 }

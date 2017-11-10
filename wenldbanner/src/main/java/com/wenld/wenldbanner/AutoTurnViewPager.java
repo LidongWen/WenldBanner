@@ -1,6 +1,7 @@
 package com.wenld.wenldbanner;
 
 import android.content.Context;
+import android.content.res.TypedArray;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -24,6 +25,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     boolean isRunning; //是否正在执行翻页中   如果是canLoop 到头了 那就不翻页
     boolean canTurn;   //能否能执行自动翻页
     public int autoTurnTime = 5000;//间隔
+    boolean reverse;
 
     ViewPagerScroller scroller;
 
@@ -38,11 +40,33 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
         turnRunnable = new AutoTurnViewPager.TurnRunnable(this);
         setRunning(true);
         setCanTurn(true);
+        initViewPagerScroll();
+
+        TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.wenldBanner);
+        if (a != null) {
+            int n = a.getIndexCount();
+            for (int i = 0; i < n; i++) {
+                int attr = a.getIndex(i);
+                if (attr == R.styleable.wenldBanner_canLoop) {
+                    setCanLoop(a.getBoolean(attr, true));
+                } else if (attr == R.styleable.wenldBanner_canTurn) {
+                    setCanTurn(a.getBoolean(attr, true));
+                } else if (attr == R.styleable.wenldBanner_isTouchScroll) {
+                    setTouchScroll(a.getBoolean(attr, true));
+                } else if (attr == R.styleable.wenldBanner_autoTurnTime) {
+                    setAutoTurnTime(a.getInteger(attr, getAutoTurnTime()));
+                } else if (attr == R.styleable.wenldBanner_scrollDuration) {
+                    setScrollDuration(a.getInteger(attr, getScrollDuration()));
+                } else if (attr == R.styleable.wenldBanner_reverse) {
+                    setReverse(a.getBoolean(attr, false));
+                }
+            }
+            a.recycle();
+        }
     }
 
     public AutoTurnViewPager setPages(Holder<T> holer) {
         WenldPagerAdapter adapter = new WenldPagerAdapter(holer);
-        initViewPagerScroll();
         adapter.setViewPager(this);
         setAdapter(adapter);
         return this;
@@ -56,7 +80,6 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     protected AutoTurnViewPager setPages(Holder<T> holer, List<T> data) {
         WenldPagerAdapter adapter = new WenldPagerAdapter(holer);
         setmDatas(data);
-        initViewPagerScroll();
         adapter.setViewPager(this);
         setAdapter(adapter);
         return this;
@@ -77,7 +100,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
 
             if (autoTurnViewPager != null) {
                 if (autoTurnViewPager.isRunning() && autoTurnViewPager.isCanTurn()) {
-                    int page = autoTurnViewPager.getCurrentItem() + 1;
+                    int page = autoTurnViewPager.getCurrentItem() + (autoTurnViewPager.isReverse() ? -1 : 1);
                     if (autoTurnViewPager.getAdapter().getCount() <= page) {
                         autoTurnViewPager.setRunning(false);
                         return;
@@ -171,12 +194,12 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
 
 
     public AutoTurnViewPager setCanTurn(boolean canTurn) {
-        if(this.canTurn==canTurn)
+        if (this.canTurn == canTurn)
             return this;
         this.canTurn = canTurn;
-        if(canTurn){
+        if (canTurn) {
             startTurn();
-        }else{
+        } else {
             stopTurning();
         }
         return this;
@@ -184,7 +207,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
 
     @Override
     public void setCanLoop(boolean canLoop) {
-        if(!isRunning()){
+        if (!isRunning()) {
             startTurn();
         }
         super.setCanLoop(canLoop);
@@ -202,5 +225,17 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     public AutoTurnViewPager setScrollDuration(int duration) {
         scroller.setScrollDuration(duration);
         return this;
+    }
+
+    public int getScrollDuration() {
+        return scroller.getScrollDuration();
+    }
+
+    public void setReverse(boolean reverse) {
+        this.reverse = reverse;
+    }
+
+    public boolean isReverse() {
+        return reverse;
     }
 }

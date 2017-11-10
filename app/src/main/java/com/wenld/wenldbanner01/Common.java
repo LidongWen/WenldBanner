@@ -34,7 +34,7 @@ public class Common {
 
         holder = new Holder<String>() {
             @Override
-            public ViewHolder createView(Context context, ViewGroup parent, int pos) {
+            public ViewHolder createView(Context context, ViewGroup parent, int pos,int viewType) {
                 return ViewHolder.createViewHolder(context, parent, R.layout.layout_text, getViewType(pos));
             }
 

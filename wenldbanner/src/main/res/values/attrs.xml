@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="wenldBanner">
-        <attr name="canLoop" format="boolean"/>
+        <attr name="canLoop" format="boolean" />
+        <attr name="canTurn" format="boolean" />
+        <attr name="autoTurnTime" format="integer|reference" />
+        <attr name="scrollDuration" format="integer|reference" />
+        <attr name="isTouchScroll" format="boolean" />
+        <attr name="reverse" format="boolean"/>
     </declare-styleable>
 </resources>

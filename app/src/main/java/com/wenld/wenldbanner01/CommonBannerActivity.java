@@ -9,12 +9,12 @@ import android.widget.RelativeLayout;
 
 import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.ToxicBakery.viewpager.transforms.ScaleInOutTransformer;
-import com.wenld.wenldbanner.CommonBanner;
+import com.wenld.wenldbanner.WenldBanner;
 import com.wenld.wenldbanner.DefaultPageIndicator;
 import com.wenld.wenldbanner01.indicator.CustomIndicator;
 
 public class CommonBannerActivity extends AppCompatActivity {
-    CommonBanner commonBanner;
+    WenldBanner commonBanner;
     DefaultPageIndicator defaultPageIndicator;
 
     CustomIndicator customIndicator;
@@ -30,7 +30,7 @@ public class CommonBannerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_banner);
-        commonBanner = (CommonBanner) findViewById(R.id.commonBanner);
+        commonBanner = (WenldBanner) findViewById(R.id.commonBanner);
         cb_loop = (CheckBox) findViewById(R.id.cb_loop);
         cb_autoTurn = (CheckBox) findViewById(R.id.cb_autoTurn);
         cb_touchScroll = (CheckBox) findViewById(R.id.cb_touchScroll);

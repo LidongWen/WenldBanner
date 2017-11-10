@@ -195,7 +195,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         }
 
         if (holder == null) {
-            holder = holderCreator.createView(wenldViewPager.getContext(), container, realPosition);
+            holder = holderCreator.createView(wenldViewPager.getContext(), container, realPosition,viewType);
         }
         mViewHolderUsedCache.add(holder);
         holder.getConvertView().setOnClickListener(new View.OnClickListener() {
