@@ -181,6 +181,7 @@ public class LoopViewPager extends ViewPager {
         this.canLoop = canLoop;
         if (mAdapter == null) return;
         int position=getCurrentItem();
+
         Log.e(TAG,"setCanLoop "+ position);
 
         mAdapter.setCanLoop(canLoop);
@@ -189,6 +190,25 @@ public class LoopViewPager extends ViewPager {
         setCurrentItem(position, false);
         mAdapter.myNotify=false;
     }
+    PageTransformer transformer;
+    @Override
+    public void setPageTransformer(boolean reverseDrawingOrder, PageTransformer transformer) {
+        this.transformer=transformer;
+        super.setPageTransformer(reverseDrawingOrder, transformer);
+    }
+
+//    void test() {
+//        if(transformer==null)return;
+//        final int childCount = getChildCount();
+//        for (int i = 0; i < childCount; i++) {
+//            final View child = getChildAt(i);
+//            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+////            for (int i = 0; i < mItems.size(); i++) {
+////                final ItemInfo ii = mItems.get(i);
+////            mPageTransformer.transformPage(child, 0);
+//        }
+//    }
+
     public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
         if (mAdapter == null)
             mAdapter.setOnItemClickListener(onItemClickListener);

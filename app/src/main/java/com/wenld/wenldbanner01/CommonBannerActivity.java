@@ -7,10 +7,9 @@ import android.widget.CompoundButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
-import com.ToxicBakery.viewpager.transforms.RotateDownTransformer;
 import com.ToxicBakery.viewpager.transforms.ScaleInOutTransformer;
-import com.wenld.wenldbanner.WenldBanner;
 import com.wenld.wenldbanner.DefaultPageIndicator;
+import com.wenld.wenldbanner.WenldBanner;
 import com.wenld.wenldbanner01.indicator.CustomIndicator;
 
 public class CommonBannerActivity extends AppCompatActivity {
@@ -20,7 +19,7 @@ public class CommonBannerActivity extends AppCompatActivity {
     CustomIndicator customIndicator;
     CheckBox cb_loop, cb_autoTurn,cb_touchScroll;
     RadioGroup radioGroup;
-    private RadioGroup radioGroup5;
+    private RadioGroup radioGroup5,radioGroup6;
     private RadioGroup radioGroup2;
     private RadioGroup radioGroup3;
     private RadioGroup radioGroup4;
@@ -40,6 +39,7 @@ public class CommonBannerActivity extends AppCompatActivity {
         radioGroup2 = (RadioGroup) findViewById(R.id.radioGroup2);
         radioGroup3 = (RadioGroup) findViewById(R.id.radioGroup3);
         radioGroup4 = (RadioGroup) findViewById(R.id.radioGroup4);
+        radioGroup6= (RadioGroup) findViewById(R.id.radioGroup6);
 
         defaultPageIndicator = new DefaultPageIndicator(this);
         defaultPageIndicator.setPageIndicator(Common.indicatorGrouop);
@@ -94,12 +94,25 @@ public class CommonBannerActivity extends AppCompatActivity {
                 }
             }
         });
+        radioGroup6.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                switch (checkedId) {
+                    case R.id.data:
+                        commonBanner.setData(Common.datas);
+                        break;
+                    case R.id.data2:
+                        commonBanner.setData(Common.datas2);
+                        break;
+                }
+            }
+        });
         radioGroup2.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.transformer_01:
-                        commonBanner.setPageTransformer(new RotateDownTransformer());
+                        commonBanner.setPageTransformer(new ZoomOutPageTransformer());
                         break;
                     case R.id.transformer_02:
                         commonBanner.setPageTransformer(new ScaleInOutTransformer());

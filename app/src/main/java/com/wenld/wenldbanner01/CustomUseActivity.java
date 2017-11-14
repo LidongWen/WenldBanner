@@ -2,6 +2,7 @@ package com.wenld.wenldbanner01;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 
 import com.wenld.wenldbanner.AutoTurnViewPager;
 import com.wenld.wenldbanner.DefaultPageIndicator;
@@ -28,5 +29,9 @@ public class CustomUseActivity extends AppCompatActivity {
         UIContact.with(autoTurnViewPager, defaultPageIndicator)
                 .setData(Common.datas);
 
+    }
+
+    public void notifyDataSetChanged(View view) {
+        autoTurnViewPager.getAdapter().notifyDataSetChanged();
     }
 }

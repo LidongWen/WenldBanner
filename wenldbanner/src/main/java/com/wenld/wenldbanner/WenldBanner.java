@@ -174,8 +174,8 @@ public class WenldBanner<T> extends RelativeLayout {
     }
 
     public void setCurrentItem(int page) {
-        viewPager.setCurrentItem(page);
         stopTurning();
+        viewPager.setCurrentItem(page);
         startTurn();
     }
 

@@ -18,16 +18,24 @@ import java.util.List;
 
 public class Common {
     public static List<String> datas;
+    public static List<String> datas2;
     public static Holder<String> holder;
     public static int[] indicatorGrouop;
     public static int[] bgColors;
     public static int[] indicatorColors;
 
     static {
-        datas = new ArrayList<>();
+        datas = new ArrayList<>();        datas2 = new ArrayList<>();
         datas.add("第一个");
         datas.add("第二个");
         datas.add("第三个");
+
+        datas2.add("datas 2第一个");
+        datas2.add("datas 2第二个");
+        datas2.add("datas 2第三个");
+        datas2.add("datas 2第四个");
+        datas2.add("datas 2第五个");
+        datas2.add("datas 2第六个");
 
         bgColors = new int[]{0xff66cccc, 0xffccff66, 0xffff99cc};
         indicatorColors = new int[]{0xff993366, 0xffffff66, 0xff666633};
