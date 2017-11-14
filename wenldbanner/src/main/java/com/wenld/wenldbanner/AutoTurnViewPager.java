@@ -145,6 +145,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     }
 
     public AutoTurnViewPager startTurn(int autoTurnTime) {
+        stopTurning();
         setRunning(true);
         setAutoTurnTime(autoTurnTime);
         postDelayed(turnRunnable, this.autoTurnTime);

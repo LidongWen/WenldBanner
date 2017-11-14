@@ -17,8 +17,8 @@ import java.util.List;
 
 /**
  * Created by wenld on 2017/11/1.
- *  http://www.jianshu.com/u/99f514ea81b3
- *  github: https://github.com/LidongWen
+ * http://www.jianshu.com/u/99f514ea81b3
+ * github: https://github.com/LidongWen
  */
 
 public class WenldBanner<T> extends RelativeLayout {
@@ -128,23 +128,16 @@ public class WenldBanner<T> extends RelativeLayout {
     }
 
     public boolean isCanTurn() {
-        if (viewPager != null) {
-            return viewPager.isCanTurn();
-        }
-        return false;
+        return viewPager.isCanTurn();
     }
 
     public WenldBanner startTurn() {
-        if (viewPager != null) {
-            viewPager.startTurn();
-        }
+        viewPager.startTurn();
         return this;
     }
 
     public WenldBanner stopTurning() {
-        if (viewPager != null) {
-            viewPager.stopTurning();
-        }
+        viewPager.stopTurning();
         return this;
     }
 
@@ -180,75 +173,54 @@ public class WenldBanner<T> extends RelativeLayout {
     }
 
     public boolean isRunning() {
-        if (viewPager != null) {
-            return viewPager.isRunning();
-        }
-        return false;
+        return viewPager.isRunning();
     }
 
     public WenldBanner setRunning(boolean running) {
-        if (viewPager != null) {
-            viewPager.setRunning(running);
-        }
+        viewPager.setRunning(running);
         return this;
     }
 
     public boolean isCanLoop() {
-        if (viewPager != null) {
-            return viewPager.isCanLoop();
-        }
-        return false;
+        return viewPager.isCanLoop();
     }
 
     public WenldBanner setCanLoop(boolean canLoop) {
-        if (viewPager != null) {
-            viewPager.setCanLoop(canLoop);
-        }
+        viewPager.setCanLoop(canLoop);
         return this;
     }
 
     public WenldBanner setCanTurn(boolean canTurn) {
-        if (viewPager != null) {
-            viewPager.setCanTurn(canTurn);
-        }
+        viewPager.setCanTurn(canTurn);
         return this;
     }
 
     public void setTouchScroll(boolean isCanScroll) {
-        if (viewPager != null) {
-            viewPager.setTouchScroll(isCanScroll);
-        }
+        viewPager.setTouchScroll(isCanScroll);
     }
 
     public int getAutoTurnTime() {
-        if (viewPager != null) {
-            return viewPager.getAutoTurnTime();
-        }
-        return 5000;
+        return viewPager.getAutoTurnTime();
     }
 
     public WenldBanner setAutoTurnTime(int autoTurnTime) {
-        if (viewPager != null) {
-            viewPager.setAutoTurnTime(autoTurnTime);
-        }
+        viewPager.setAutoTurnTime(autoTurnTime);
         return this;
     }
 
     public void setReverse(boolean reverse) {
-        if (viewPager != null) {
-            viewPager.setReverse(reverse);
-        }
+        viewPager.setReverse(reverse);
     }
 
     public boolean isReverse() {
-        if (viewPager != null) {
-            return viewPager.isReverse();
-        }
-        return false;
+        return viewPager.isReverse();
     }
-    public void setOnItemClickListener(OnPageClickListener onItemClickListener){
-        if (viewPager != null) {
-            viewPager.setOnItemClickListener(onItemClickListener);
-        }
+
+    public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
+        viewPager.setOnItemClickListener(onItemClickListener);
+    }
+
+    public AutoTurnViewPager getViewPager() {
+        return viewPager;
     }
 }

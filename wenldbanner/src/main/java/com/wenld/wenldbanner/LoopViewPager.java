@@ -48,18 +48,22 @@ public class LoopViewPager extends ViewPager {
     public void setCurrentItem(int item) {
         super.setCurrentItem(mAdapter.realPostiton2AdapterPostiton(item));
     }
+
     @Override
-    public void setCurrentItem(int item,boolean smoothScroll) {
-        super.setCurrentItem(mAdapter.realPostiton2AdapterPostiton(item),smoothScroll);
+    public void setCurrentItem(int item, boolean smoothScroll) {
+        super.setCurrentItem(mAdapter.realPostiton2AdapterPostiton(item), smoothScroll);
     }
+
     public int getSuperCurrentItem() {
         return super.getCurrentItem();
     }
+
     @Override
     public int getCurrentItem() {
         return mAdapter.adapterPostiton2RealDataPosition(super.getCurrentItem());
     }
-    int getRealItem(int position){
+
+    int getRealItem(int position) {
         return mAdapter.adapterPostiton2RealDataPosition(position);
     }
 
@@ -124,7 +128,7 @@ public class LoopViewPager extends ViewPager {
             int realPosition = getRealItem(position);
             if (mPreviousPosition != realPosition) {
                 mPreviousPosition = realPosition;
-                Log.d(TAG, String.format("onPageSelected mPreviousPosition  %s", mPreviousPosition));
+                MyLog.d(TAG, String.format("onPageSelected mPreviousPosition  %s", mPreviousPosition));
                 for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                     getmOuterPageChangeListeners().get(i).onPageSelected(realPosition);
                 }
@@ -135,7 +139,7 @@ public class LoopViewPager extends ViewPager {
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
             int realPosition = position;
-                     realPosition = mAdapter.adapterPostiton2RealDataPosition(realPosition);
+            realPosition = mAdapter.adapterPostiton2RealDataPosition(realPosition);
             for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                 getmOuterPageChangeListeners().get(i).onPageScrolled(realPosition,
                         positionOffset, positionOffsetPixels);
@@ -180,20 +184,25 @@ public class LoopViewPager extends ViewPager {
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
         if (mAdapter == null) return;
-        int position=getCurrentItem();
+        int position = getCurrentItem();
 
-        Log.e(TAG,"setCanLoop "+ position);
+        MyLog.d(TAG, String.format("setCanLoop currentPosition:%s realPosition :%s getScrollX():%s", getSuperCurrentItem(), position, getScrollX()));
 
         mAdapter.setCanLoop(canLoop);
-        mAdapter.myNotify=true;
+        mAdapter.myNotify = true;
         mAdapter.notifyDataSetChanged();
+        MyLog.d(TAG, String.format("setCanLoop in setCurrentItem currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
         setCurrentItem(position, false);
-        mAdapter.myNotify=false;
+
+        MyLog.d(TAG, String.format("setCanLoop setCurrentItem after currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
+        mAdapter.myNotify = false;
     }
+
     PageTransformer transformer;
+
     @Override
     public void setPageTransformer(boolean reverseDrawingOrder, PageTransformer transformer) {
-        this.transformer=transformer;
+        this.transformer = transformer;
         super.setPageTransformer(reverseDrawingOrder, transformer);
     }
 

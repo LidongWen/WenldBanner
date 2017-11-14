@@ -2,8 +2,11 @@ package com.wenld.wenldbanner01;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
@@ -13,12 +16,14 @@ import com.wenld.wenldbanner.WenldBanner;
 import com.wenld.wenldbanner01.indicator.CustomIndicator;
 
 public class CommonBannerActivity extends AppCompatActivity {
-    WenldBanner commonBanner;
+    WenldBanner wenldBanner;
     DefaultPageIndicator defaultPageIndicator;
 
     CustomIndicator customIndicator;
     CheckBox cb_loop, cb_autoTurn,cb_touchScroll;
     RadioGroup radioGroup;
+    EditText etv;
+    Button btn;
     private RadioGroup radioGroup5,radioGroup6;
     private RadioGroup radioGroup2;
     private RadioGroup radioGroup3;
@@ -29,7 +34,7 @@ public class CommonBannerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_common_banner);
-        commonBanner = (WenldBanner) findViewById(R.id.commonBanner);
+        wenldBanner = (WenldBanner) findViewById(R.id.commonBanner);
         cb_loop = (CheckBox) findViewById(R.id.cb_loop);
         cb_autoTurn = (CheckBox) findViewById(R.id.cb_autoTurn);
         cb_touchScroll = (CheckBox) findViewById(R.id.cb_touchScroll);
@@ -40,31 +45,33 @@ public class CommonBannerActivity extends AppCompatActivity {
         radioGroup3 = (RadioGroup) findViewById(R.id.radioGroup3);
         radioGroup4 = (RadioGroup) findViewById(R.id.radioGroup4);
         radioGroup6= (RadioGroup) findViewById(R.id.radioGroup6);
+        etv= (EditText) findViewById(R.id.etv);
+        btn= (Button) findViewById(R.id.btn);
 
         defaultPageIndicator = new DefaultPageIndicator(this);
         defaultPageIndicator.setPageIndicator(Common.indicatorGrouop);
         customIndicator = new CustomIndicator(this);
 
         //设置 view 与 数据
-        commonBanner.setPages(Common.holder, Common.datas);
+        wenldBanner.setPages(Common.holder, Common.datas);
         switchDefaultIndicator();
 
         cb_loop.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                commonBanner.setCanLoop(isChecked);
+                wenldBanner.setCanLoop(isChecked);
             }
         });
         cb_autoTurn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                commonBanner.setCanTurn(isChecked);
+                wenldBanner.setCanTurn(isChecked);
             }
         });
         cb_touchScroll.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                commonBanner.setTouchScroll(isChecked);
+                wenldBanner.setTouchScroll(isChecked);
             }
         });
 
@@ -86,10 +93,10 @@ public class CommonBannerActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.dicator_gravity_01:
-                        commonBanner.setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);
+                        wenldBanner.setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);
                         break;
                     case R.id.dicator_gravity_02:
-                        commonBanner.setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM);
+                        wenldBanner.setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM);
                         break;
                 }
             }
@@ -99,10 +106,10 @@ public class CommonBannerActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.data:
-                        commonBanner.setData(Common.datas);
+                        wenldBanner.setData(Common.datas);
                         break;
                     case R.id.data2:
-                        commonBanner.setData(Common.datas2);
+                        wenldBanner.setData(Common.datas2);
                         break;
                 }
             }
@@ -112,10 +119,10 @@ public class CommonBannerActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.transformer_01:
-                        commonBanner.setPageTransformer(new ZoomOutPageTransformer());
+                        wenldBanner.setPageTransformer(new ZoomOutPageTransformer());
                         break;
                     case R.id.transformer_02:
-                        commonBanner.setPageTransformer(new ScaleInOutTransformer());
+                        wenldBanner.setPageTransformer(new ScaleInOutTransformer());
                         break;
                 }
             }
@@ -125,10 +132,10 @@ public class CommonBannerActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.time_01:
-                        commonBanner.setAutoTurnTime(5000);
+                        wenldBanner.setAutoTurnTime(5000);
                         break;
                     case R.id.time_02:
-                        commonBanner.setAutoTurnTime(10000);
+                        wenldBanner.setAutoTurnTime(10000);
                         break;
                 }
             }
@@ -138,18 +145,24 @@ public class CommonBannerActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 switch (checkedId) {
                     case R.id.speeed_01:
-                        commonBanner.setScrollDuration(1000);
+                        wenldBanner.setScrollDuration(1000);
                         break;
                     case R.id.speeed_02:
-                        commonBanner.setScrollDuration(2000);
+                        wenldBanner.setScrollDuration(2000);
                         break;
                 }
+            }
+        });
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setcuurent(v);
             }
         });
     }
 
     void switchDefaultIndicator() {
-        commonBanner
+        wenldBanner
                 .setPageIndicatorListener(defaultPageIndicator)
                 .setIndicatorView(defaultPageIndicator)
                 .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);
@@ -159,9 +172,13 @@ public class CommonBannerActivity extends AppCompatActivity {
      * 切换自定义指示器
      */
     void switchCustomIndicator() {
-        commonBanner
+        wenldBanner
                 .setPageIndicatorListener(customIndicator)
                 .setIndicatorView(customIndicator.getPageIndicatorView())
                 .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);
+    }
+
+    public void setcuurent(View view) {
+        wenldBanner.getViewPager().setCurrentItem(Integer.parseInt(etv.getText().toString()),false);
     }
 }

@@ -31,7 +31,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return canLoop ? Integer.MAX_VALUE : getRealCount();
+        return canLoop ? (getRealCount() > 1 ? getRealCount() + 2 : getRealCount()) : getRealCount();
     }
 
     public int getRealCount() {
@@ -58,11 +58,13 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
     }
 
     public int realPostiton2AdapterPostiton(int position) {
-        int realCount = getRealCount();
-        if (realCount == 0)
-            return 0;
-        int realPosition = position % realCount;
-        return realPosition;
+        if (canLoop) {
+            int realCount = getRealCount();
+            if (realCount == 0)
+                return 0;
+            return position + 1;
+        }
+        return position;
     }
 
     /**

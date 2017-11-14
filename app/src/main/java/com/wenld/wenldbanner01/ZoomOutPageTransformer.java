@@ -4,6 +4,8 @@ import android.annotation.SuppressLint;
 import android.support.v4.view.ViewPager;
 import android.view.View;
 
+import com.wenld.wenldbanner.MyLog;
+
 /**
  * <p/>
  * Author: 温利东 on 2017/11/8 9:42.
@@ -16,13 +18,12 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
     private static final float MIN_ALPHA = 0.5f;
 
     @SuppressLint("NewApi")
-    public void transformPage(View view, float position)
-    {
+    public void transformPage(View view, float position) {
+        MyLog.e("PageTransformer", " " + position);
         int pageWidth = view.getWidth();
         int pageHeight = view.getHeight();
 
-        if (position < -1)
-        { // [-Infinity,-1)
+        if (position < -1) { // [-Infinity,-1)
             // This page is way off-screen to the left.
             view.setAlpha(MIN_ALPHA);
 //            view.setTranslationX(horzMargin - vertMargin / 2);
@@ -40,9 +41,8 @@ public class ZoomOutPageTransformer implements ViewPager.PageTransformer {
             // Fade the page relative to its size.
             view.setAlpha(MIN_ALPHA + (scaleFactor - MIN_SCALE)
                     / (1 - MIN_SCALE) * (1 - MIN_ALPHA));
-            
-        }
-        else{ // (1,+Infinity]
+
+        } else { // (1,+Infinity]
             // This page is way off-screen to the right.
             view.setAlpha(MIN_ALPHA);
             view.setScaleX(MIN_SCALE);
