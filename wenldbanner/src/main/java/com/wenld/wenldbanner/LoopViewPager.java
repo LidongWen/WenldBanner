@@ -3,7 +3,6 @@ package com.wenld.wenldbanner;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.MotionEvent;
 
 import com.wenld.wenldbanner.adapter.WenldPagerAdapter;
@@ -139,6 +138,7 @@ public class LoopViewPager extends ViewPager {
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
             int realPosition = position;
+            MyLog.d(TAG, String.format("getScrollX %s", getScrollX()));
             realPosition = mAdapter.adapterPostiton2RealDataPosition(realPosition);
             for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                 getmOuterPageChangeListeners().get(i).onPageScrolled(realPosition,
@@ -193,7 +193,6 @@ public class LoopViewPager extends ViewPager {
         mAdapter.notifyDataSetChanged();
         MyLog.d(TAG, String.format("setCanLoop in setCurrentItem currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
         setCurrentItem(position, false);
-
         MyLog.d(TAG, String.format("setCanLoop setCurrentItem after currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
         mAdapter.myNotify = false;
     }
