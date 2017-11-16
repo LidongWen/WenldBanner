@@ -7,6 +7,7 @@ import android.view.MotionEvent;
 
 import com.wenld.wenldbanner.adapter.WenldPagerAdapter;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -189,12 +190,12 @@ public class LoopViewPager extends ViewPager {
         MyLog.d(TAG, String.format("setCanLoop currentPosition:%s realPosition :%s getScrollX():%s", getSuperCurrentItem(), position, getScrollX()));
 
         mAdapter.setCanLoop(canLoop);
-        mAdapter.myNotify = true;
         mAdapter.notifyDataSetChanged();
         MyLog.d(TAG, String.format("setCanLoop in setCurrentItem currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
-        setCurrentItem(position, false);
+//        setCurrentItem(position);
+//        pageScrolled(0);
+//        setBannerCurrentItemInternal(getSuperCurrentItem(),false);
         MyLog.d(TAG, String.format("setCanLoop setCurrentItem after currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
-        mAdapter.myNotify = false;
     }
 
     PageTransformer transformer;
@@ -205,17 +206,30 @@ public class LoopViewPager extends ViewPager {
         super.setPageTransformer(reverseDrawingOrder, transformer);
     }
 
-//    void test() {
-//        if(transformer==null)return;
-//        final int childCount = getChildCount();
-//        for (int i = 0; i < childCount; i++) {
-//            final View child = getChildAt(i);
-//            final LayoutParams lp = (LayoutParams) child.getLayoutParams();
-////            for (int i = 0; i < mItems.size(); i++) {
-////                final ItemInfo ii = mItems.get(i);
-////            mPageTransformer.transformPage(child, 0);
-//        }
-//    }
+    public void pageScrolled(int xpos) {
+        Class viewpagerClass = ViewPager.class;
+        try {
+            Method pageScrolledMethod = viewpagerClass.getDeclaredMethod("pageScrolled", int.class);
+            pageScrolledMethod.setAccessible(true);
+            pageScrolledMethod.invoke(this, xpos);
+
+        } catch (Exception e) {
+        }
+    }
+
+    public void setBannerCurrentItemInternal(int position, boolean smoothScroll) {
+        Class viewpagerClass = ViewPager.class;
+        try {
+            Method populateMethod = viewpagerClass.getDeclaredMethod("populate", int.class);
+            populateMethod.setAccessible(true);
+            populateMethod.invoke(this, position);
+
+            Method scrollToItemMethod = viewpagerClass.getDeclaredMethod("scrollToItem", int.class, boolean.class, int.class, boolean.class);
+            scrollToItemMethod.setAccessible(true);
+            scrollToItemMethod.invoke(this, position, smoothScroll, 0, false);
+        } catch (Exception e) {
+        }
+    }
 
     public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
         if (mAdapter == null)

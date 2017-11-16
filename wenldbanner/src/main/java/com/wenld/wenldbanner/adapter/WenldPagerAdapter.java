@@ -47,6 +47,12 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     public boolean myNotify = false;
 
+    @Override
+    public void notifyDataSetChanged() {
+        myNotify=true;
+        super.notifyDataSetChanged();
+        myNotify=false;
+    }
 
     @Override
     public int getItemPosition(Object object) {
