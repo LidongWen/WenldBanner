@@ -18,7 +18,7 @@
 * 是否支持手动滑动
 * 是否反向切换页面（切换方向）
 
-## use
+# use
 
 1. 引用:
 
@@ -35,7 +35,7 @@ dependencies {
 ```
 
 2. 使用 WenldBanner:
-    2.1.  xml写入
+2.1.  xml写入
     ```
         <com.wenld.wenldbanner.WenldBanner
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -66,6 +66,7 @@ dependencies {
                 .setIndicatorView(defaultPageIndicator)  //设置指示器VIew
                 .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);    //设置指示器位置
     ```
+
 还可以设置任意指示器样式，指示器监听事件，指示器位置等等...
 ![指示器样式1](http://upload-images.jianshu.io/upload_images/1599843-f9fc7e28b006baef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![指示器样式2](http://upload-images.jianshu.io/upload_images/1599843-c03b1e1b4e718504.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -75,8 +76,11 @@ dependencies {
 比如实现这个效果：
 ![](http://upload-images.jianshu.io/upload_images/1599843-4ec80926d3d8c0e7.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-**记住**：先将根目录设置 `  android:clipChildren="false"`，在设置AutiTurnViewPager的宽度  `android:layout_width="250dp"` 留出一些空隙
+**记住**：
+先将根目录设置 `  android:clipChildren="false"`，在设置AutiTurnViewPager的宽度  `android:layout_width="250dp"` 留出一些空隙
 代码中设置`PageTransformer`
+
+xml中  
  ```
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     ...
@@ -93,9 +97,10 @@ dependencies {
 
 </FrameLayout>
 ```
+java
 ```
-    protected void onCreate(Bundle savedInstanceState) {
-        autoTurnViewPager.setPageTransformer(new ZoomOutPageTransformer());
-   }
+protected void onCreate(Bundle savedInstanceState) {
+    autoTurnViewPager.setPageTransformer(new ZoomOutPageTransformer());
+}
 ```
 
