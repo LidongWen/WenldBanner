@@ -2,11 +2,8 @@ package com.wenld.wenldbanner01;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.EditText;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 
@@ -22,8 +19,6 @@ public class CommonBannerActivity extends AppCompatActivity {
     CustomIndicator customIndicator;
     CheckBox cb_loop, cb_autoTurn,cb_touchScroll;
     RadioGroup radioGroup;
-    EditText etv;
-    Button btn;
     private RadioGroup radioGroup5,radioGroup6;
     private RadioGroup radioGroup2;
     private RadioGroup radioGroup3;
@@ -45,8 +40,6 @@ public class CommonBannerActivity extends AppCompatActivity {
         radioGroup3 = (RadioGroup) findViewById(R.id.radioGroup3);
         radioGroup4 = (RadioGroup) findViewById(R.id.radioGroup4);
         radioGroup6= (RadioGroup) findViewById(R.id.radioGroup6);
-        etv= (EditText) findViewById(R.id.etv);
-        btn= (Button) findViewById(R.id.btn);
 
         defaultPageIndicator = new DefaultPageIndicator(this);
         defaultPageIndicator.setPageIndicator(Common.indicatorGrouop);
@@ -153,12 +146,6 @@ public class CommonBannerActivity extends AppCompatActivity {
                 }
             }
         });
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setcuurent(v);
-            }
-        });
     }
 
     void switchDefaultIndicator() {
@@ -176,9 +163,5 @@ public class CommonBannerActivity extends AppCompatActivity {
                 .setPageIndicatorListener(customIndicator)
                 .setIndicatorView(customIndicator.getPageIndicatorView())
                 .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);
-    }
-
-    public void setcuurent(View view) {
-        wenldBanner.getViewPager().setCurrentItem(Integer.parseInt(etv.getText().toString()),false);
     }
 }

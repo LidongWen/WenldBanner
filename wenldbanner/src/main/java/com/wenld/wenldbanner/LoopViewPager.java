@@ -4,10 +4,10 @@ import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.wenld.wenldbanner.adapter.WenldPagerAdapter;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -139,7 +139,6 @@ public class LoopViewPager extends ViewPager {
         public void onPageScrolled(int position, float positionOffset,
                                    int positionOffsetPixels) {
             int realPosition = position;
-            MyLog.d(TAG, String.format("getScrollX %s", getScrollX()));
             realPosition = mAdapter.adapterPostiton2RealDataPosition(realPosition);
             for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                 getmOuterPageChangeListeners().get(i).onPageScrolled(realPosition,
@@ -182,53 +181,42 @@ public class LoopViewPager extends ViewPager {
         return canLoop;
     }
 
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+        super.onLayout(changed, l, t, r, b);
+
+        if (transformer != null) {
+            final int scrollX = getScrollX();
+            final int childCount = getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = getChildAt(i);
+                final LayoutParams lp = (LayoutParams) child.getLayoutParams();
+
+                if (lp.isDecor) continue;
+                final float transformPos = (float) (child.getLeft() - scrollX) / getClientWidth();
+                transformer.transformPage(child, transformPos);
+            }
+        }
+    }
+
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
         if (mAdapter == null) return;
         int position = getCurrentItem();
 
-        MyLog.d(TAG, String.format("setCanLoop currentPosition:%s realPosition :%s getScrollX():%s", getSuperCurrentItem(), position, getScrollX()));
-
         mAdapter.setCanLoop(canLoop);
         mAdapter.notifyDataSetChanged();
-        MyLog.d(TAG, String.format("setCanLoop in setCurrentItem currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
-//        setCurrentItem(position);
-//        pageScrolled(0);
-//        setBannerCurrentItemInternal(getSuperCurrentItem(),false);
-        MyLog.d(TAG, String.format("setCanLoop setCurrentItem after currentPosition:%s realPosition :%s,getScrollX():%s", getSuperCurrentItem(), getCurrentItem(), getScrollX()));
+        setCurrentItem(position,false);
     }
-
+    private int getClientWidth() {
+        return getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+    }
     PageTransformer transformer;
 
     @Override
     public void setPageTransformer(boolean reverseDrawingOrder, PageTransformer transformer) {
         this.transformer = transformer;
         super.setPageTransformer(reverseDrawingOrder, transformer);
-    }
-
-    public void pageScrolled(int xpos) {
-        Class viewpagerClass = ViewPager.class;
-        try {
-            Method pageScrolledMethod = viewpagerClass.getDeclaredMethod("pageScrolled", int.class);
-            pageScrolledMethod.setAccessible(true);
-            pageScrolledMethod.invoke(this, xpos);
-
-        } catch (Exception e) {
-        }
-    }
-
-    public void setBannerCurrentItemInternal(int position, boolean smoothScroll) {
-        Class viewpagerClass = ViewPager.class;
-        try {
-            Method populateMethod = viewpagerClass.getDeclaredMethod("populate", int.class);
-            populateMethod.setAccessible(true);
-            populateMethod.invoke(this, position);
-
-            Method scrollToItemMethod = viewpagerClass.getDeclaredMethod("scrollToItem", int.class, boolean.class, int.class, boolean.class);
-            scrollToItemMethod.setAccessible(true);
-            scrollToItemMethod.invoke(this, position, smoothScroll, 0, false);
-        } catch (Exception e) {
-        }
     }
 
     public void setOnItemClickListener(OnPageClickListener onItemClickListener) {

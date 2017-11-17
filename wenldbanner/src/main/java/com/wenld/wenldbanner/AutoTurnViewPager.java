@@ -106,7 +106,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
                         return;
                     }
                     autoTurnViewPager.setCurrentItem(page);
-                    autoTurnViewPager.postDelayed(autoTurnViewPager.turnRunnable, autoTurnViewPager.autoTurnTime);
+                    autoTurnViewPager.startTurn();
                 }
             }
         }
@@ -116,6 +116,12 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         startTurn();
+    }
+
+    @Override
+    protected void onDetachedFromWindow() {
+        stopTurning();
+        super.onDetachedFromWindow();
     }
 
     @Override
@@ -144,7 +150,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
         return canTurn;
     }
 
-    public AutoTurnViewPager startTurn(int autoTurnTime) {
+    private AutoTurnViewPager startTurn(int autoTurnTime) {
         stopTurning();
         setRunning(true);
         setAutoTurnTime(autoTurnTime);
