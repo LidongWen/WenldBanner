@@ -73,7 +73,9 @@ dependencies {
 ![指示器样式3](http://upload-images.jianshu.io/upload_images/1599843-7f830ca0705632a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 3.  自定义拆分使用：
+
 比如实现这个效果：
+
 ![](http://upload-images.jianshu.io/upload_images/1599843-4ec80926d3d8c0e7.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 **记住**：
