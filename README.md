@@ -21,7 +21,7 @@
 # use
 
 ### 1、引用:
-[![](https://jitpack.io/v/LidongWen/WenldBanner.svg)](https://jitpack.io/#LidongWen/WenldBanner)
+版本号： [![](https://jitpack.io/v/LidongWen/WenldBanner.svg)](https://jitpack.io/#LidongWen/WenldBanner)
 ```
 // root build.gradle
 repositories {
