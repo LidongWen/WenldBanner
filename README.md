@@ -1,4 +1,4 @@
-# 一款商业级Banner控件
+# 一款商业级Banner控件 
 
 既然敢说商业级，那么就支持足够的自定义与扩展性!  实现思路请看这 [开发一款商业级Banner控件]()
 
@@ -21,7 +21,7 @@
 # use
 
 ### 1、引用:
-
+[![](https://jitpack.io/v/LidongWen/WenldBanner.svg)](https://jitpack.io/#LidongWen/WenldBanner)
 ```
 // root build.gradle
 repositories {
@@ -30,7 +30,7 @@ repositories {
 }
 // yout project build.gradle
 dependencies {
-        compile 'com.github.LidongWen:WenldBanner:1.0.0'
+        compile 'com.github.LidongWen:WenldBanner:xxx'
 }
 ```
 
