@@ -83,6 +83,7 @@ dependencies {
 代码中设置`PageTransformer`
 
 xml文件
+
  ```
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     ...
@@ -96,10 +97,11 @@ xml文件
 
     <com.wenld.wenldbanner.DefaultPageIndicator
       .../>
-
 </FrameLayout>
 ```
+
 java 要设置`PageTransformer`否则看不出效果
+
 ```
 protected void onCreate(Bundle savedInstanceState) {
     autoTurnViewPager.setPageTransformer(new ZoomOutPageTransformer());
