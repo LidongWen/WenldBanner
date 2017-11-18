@@ -76,11 +76,11 @@ dependencies {
 
 比如实现这个效果：
 
-![](http://upload-images.jianshu.io/upload_images/1599843-4ec80926d3d8c0e7.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![](http://upload-images.jianshu.io/upload_images/1599843-173710c737f240ca.gif?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-**记住**：
-先将根目录设置 `  android:clipChildren="false"`，在设置AutiTurnViewPager的宽度  `android:layout_width="250dp"` 留出一些空隙
-代码中设置`PageTransformer`
+**注意**：
+先将根目录设置 `  android:clipChildren="false"`，在设置AutiTurnViewPager的宽度 给 viewpPager留出一些空隙`android:layout_width="250dp"` 
+在代码中设置`PageTransformer`查看转换效果
 
 xml文件
 
