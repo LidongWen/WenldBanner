@@ -52,7 +52,7 @@ dependencies {
     ```
 
 ##### 2.2.  Java代码中设置属性
-   ```
+```
         wenldBanner = (WenldBanner) findViewById(R.id.commonBanner);
         //初始化指示器
         defaultPageIndicator = new DefaultPageIndicator(this);
@@ -65,7 +65,7 @@ dependencies {
                 .setPageIndicatorListener(defaultPageIndicator)  //设置指示器监听
                 .setIndicatorView(defaultPageIndicator)  //设置指示器VIew
                 .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);    //设置指示器位置
-    ```
+```
 
 还可以设置任意指示器样式，指示器监听事件，指示器位置等等...  
 ![指示器样式1](http://upload-images.jianshu.io/upload_images/1599843-f9fc7e28b006baef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
