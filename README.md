@@ -20,7 +20,7 @@
 
 # use
 
-1. 引用:
+### 1、引用:
 
 ```
 // root build.gradle
@@ -34,8 +34,8 @@ dependencies {
 }
 ```
 
-2. 使用 WenldBanner:
-2.1.  xml写入
+### 2. 使用 WenldBanner:
+##### 2.1.  xml  
     ```
         <com.wenld.wenldbanner.WenldBanner
             xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -51,7 +51,7 @@ dependencies {
        />
     ```
 
-    2.2.  Java代码中设置属性
+##### 2.2.  Java代码中设置属性
    ```
         wenldBanner = (WenldBanner) findViewById(R.id.commonBanner);
         //初始化指示器
@@ -67,12 +67,12 @@ dependencies {
                 .setPageIndicatorAlign(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.CENTER_HORIZONTAL);    //设置指示器位置
     ```
 
-还可以设置任意指示器样式，指示器监听事件，指示器位置等等...
+还可以设置任意指示器样式，指示器监听事件，指示器位置等等...  
 ![指示器样式1](http://upload-images.jianshu.io/upload_images/1599843-f9fc7e28b006baef.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![指示器样式2](http://upload-images.jianshu.io/upload_images/1599843-c03b1e1b4e718504.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ![指示器样式3](http://upload-images.jianshu.io/upload_images/1599843-7f830ca0705632a4.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
-3.  自定义拆分使用：
+##### 3.  自定义拆分使用：
 
 比如实现这个效果：
 
@@ -82,7 +82,7 @@ dependencies {
 先将根目录设置 `  android:clipChildren="false"`，在设置AutiTurnViewPager的宽度  `android:layout_width="250dp"` 留出一些空隙
 代码中设置`PageTransformer`
 
-xml中  
+xml文件
  ```
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     ...
@@ -99,7 +99,7 @@ xml中
 
 </FrameLayout>
 ```
-java
+java 要设置`PageTransformer`否则看不出效果
 ```
 protected void onCreate(Bundle savedInstanceState) {
     autoTurnViewPager.setPageTransformer(new ZoomOutPageTransformer());
