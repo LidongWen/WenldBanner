@@ -93,10 +93,10 @@ xml文件
         android:id="@+id/autoTurnViewPager"
         android:layout_width="250dp"
         android:clipToPadding="false"
-        .../>
+        ... 
 
     <com.wenld.wenldbanner.DefaultPageIndicator
-      .../>
+      ... 
 </FrameLayout>
 ```
 
