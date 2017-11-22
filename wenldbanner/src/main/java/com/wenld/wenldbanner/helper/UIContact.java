@@ -37,7 +37,7 @@ public class UIContact {
         if (autoTurnViewPager != null) {
             int position = autoTurnViewPager.getCurrentItem();
             autoTurnViewPager.setmDatas(data);
-            autoTurnViewPager.getAdapter().notifyDataSetChanged();
+            autoTurnViewPager.getAdapter().notifyDataSetChanged(true);
             autoTurnViewPager.setCurrentItem(position, false);
         }
         if (pageIndicatorListener != null) {

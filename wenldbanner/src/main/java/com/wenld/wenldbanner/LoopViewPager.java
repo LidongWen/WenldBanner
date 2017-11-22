@@ -205,7 +205,7 @@ public class LoopViewPager extends ViewPager {
         int position = getCurrentItem();
 
         mAdapter.setCanLoop(canLoop);
-        mAdapter.notifyDataSetChanged();
+        mAdapter.notifyDataSetChanged(true);
         setCurrentItem(position,false);
     }
     private int getClientWidth() {

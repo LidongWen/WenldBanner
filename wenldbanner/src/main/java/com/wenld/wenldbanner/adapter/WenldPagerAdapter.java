@@ -47,9 +47,8 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     public boolean myNotify = false;
 
-    @Override
-    public void notifyDataSetChanged() {
-        myNotify=true;
+    public void notifyDataSetChanged(boolean isRefresh){
+        myNotify=isRefresh;
         super.notifyDataSetChanged();
         myNotify=false;
     }
