@@ -15,10 +15,7 @@
             android:id="@+id/commonBanner"
             android:layout_width="match_parent"
             android:layout_height="200dp" />
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:id="@+id/bug"/>
+
         <CheckBox
             android:id="@+id/cb_loop"
             android:layout_width="wrap_content"
