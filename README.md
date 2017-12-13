@@ -108,7 +108,8 @@ protected void onCreate(Bundle savedInstanceState) {
     autoTurnViewPager.setPageTransformer(new ZoomOutPageTransformer());
 }
 ```
-
+> ####  **· v 2.0.1**
+> 　　   · 优化
 > ####  **· v 2.0.0**
 > 　　   · 更换无限循环方式，使操作更加流畅
 >  　　  · 优化代码，真实循环采用观察者模式
