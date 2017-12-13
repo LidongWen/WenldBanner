@@ -2,6 +2,7 @@ package com.wenld.wenldbanner01;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
@@ -24,7 +25,8 @@ public class CommonBannerActivity extends AppCompatActivity {
     private RadioGroup radioGroup3;
     private RadioGroup radioGroup4;
 
-
+int aa=900;
+boolean b=true;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,14 @@ public class CommonBannerActivity extends AppCompatActivity {
         cb_autoTurn = (CheckBox) findViewById(R.id.cb_autoTurn);
         cb_touchScroll = (CheckBox) findViewById(R.id.cb_touchScroll);
 
+        findViewById( R.id.bug).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aa=b?905:895;
+                b=!b;
+                wenldBanner.getViewPager().setSuperCurrentItem(301,false);
+            }
+        });
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         radioGroup5 = (RadioGroup) findViewById(R.id.radioGroup5);
         radioGroup2 = (RadioGroup) findViewById(R.id.radioGroup2);

@@ -28,6 +28,8 @@ dependencies {
     compile deps.appcompatV7
     testCompile 'junit:junit:4.12'
     compile deps.constraintLayout
+//    compile 'com.github.LidongWen:WenldBanner:2.0.0'
+    compile deps.appcompatV7
     compile project(path: ':wenldbanner')
     compile 'com.ToxicBakery.viewpager.transforms:view-pager-transforms:1.2.32@aar'
     compile 'com.romandanylyk:pageindicatorview:0.2.0'

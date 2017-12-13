@@ -69,7 +69,9 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
-        super.setCurrentItem(mAdapter.realPostiton2AdapterPosition(getSuperCurrentItem(), item), smoothScroll);
+        int cur = mAdapter.realPostiton2AdapterPosition(getSuperCurrentItem(), item);
+        MyLog.e(TAG, "setCurrentItem:" + cur);
+        super.setCurrentItem(cur);
     }
 
     public int getSuperCurrentItem() {
@@ -166,6 +168,13 @@ public class LoopViewPager extends ViewPager {
 
         @Override
         public void onPageScrollStateChanged(int state) {
+            if (state == SCROLL_STATE_IDLE) {
+                int currentItem = getSuperCurrentItem();
+                int realAdapterPosition = mAdapter.controlAdapterPosition(currentItem);
+                if (currentItem != realAdapterPosition) {
+                    setSuperCurrentItem(realAdapterPosition, false);
+                }
+            }
             for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                 getmOuterPageChangeListeners().get(i).onPageScrollStateChanged(state);
             }

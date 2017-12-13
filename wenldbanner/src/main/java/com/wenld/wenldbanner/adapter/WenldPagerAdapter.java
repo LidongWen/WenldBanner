@@ -41,7 +41,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     @Override
     public int getCount() {
-        return realCanLoop ? Integer.MAX_VALUE : getRealCount();
+        return realCanLoop ? getRealCount() * 600 : getRealCount();
     }
 
     public int getRealCount() {
@@ -102,21 +102,19 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
     }
 
     /**
-     * 头尾下标转换
+     * 控制AdapterPosition范围
      *
-     * @param position
+     * @param adapterPosition
      * @return
      */
-    public int headFootPosition2AdapterPosition(int position) {
+    public int controlAdapterPosition(int adapterPosition) {
 
-        if (canLoop && getRealCount() > 1) {
-            if (position == 0) {
-                return getRealCount();
-            } else if (position == getCount() - 1) {
-                return 1;
+        if (realCanLoop) {
+            if (adapterPosition > getRealCount() * 400 || adapterPosition < getRealCount() * 200) {
+                return startAdapterPosition(adapterPostiton2RealDataPosition(adapterPosition));
             }
         }
-        return position;
+        return adapterPosition;
     }
 
     @Override
