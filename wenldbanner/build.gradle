@@ -23,11 +23,11 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    provided fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestProvided('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
 
-    compile deps.appcompatV7
-    testCompile 'junit:junit:4.12'
+    provided deps.appcompatV7
+    testProvided 'junit:junit:4.12'
 }

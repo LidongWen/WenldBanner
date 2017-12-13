@@ -19,6 +19,11 @@ import java.util.List;
  * Author: 温利东 on 2017/11/6 13:49.
  * blog: http://www.jianshu.com/u/99f514ea81b3
  * github: https://github.com/LidongWen
+ * <p>
+ * describe:
+ * 控制是否执行自动翻页
+ * 控制开始与结束
+ * 翻页时间间隔
  */
 
 public class AutoTurnViewPager<T> extends LoopViewPager {
@@ -101,7 +106,7 @@ public class AutoTurnViewPager<T> extends LoopViewPager {
             if (autoTurnViewPager != null) {
                 if (autoTurnViewPager.isRunning() && autoTurnViewPager.isCanTurn()) {
                     int page = autoTurnViewPager.getCurrentItem() + (autoTurnViewPager.isReverse() ? -1 : 1);
-                    if (autoTurnViewPager.getAdapter().getCount() <= page) {
+                    if (!autoTurnViewPager.getAdapter().isRealCanLoop() && (page >= autoTurnViewPager.getAdapter().getRealCount() || page < 0)) {
                         autoTurnViewPager.setRunning(false);
                         return;
                     }

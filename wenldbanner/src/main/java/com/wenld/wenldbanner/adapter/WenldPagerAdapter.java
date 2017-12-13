@@ -1,10 +1,12 @@
 package com.wenld.wenldbanner.adapter;
 
+import android.database.DataSetObservable;
+import android.database.DataSetObserver;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.wenld.wenldbanner.LoopViewPager;
 import com.wenld.wenldbanner.OnPageClickListener;
 import com.wenld.wenldbanner.helper.Holder;
 import com.wenld.wenldbanner.helper.ViewHolder;
@@ -17,21 +19,29 @@ import java.util.List;
  * Author: 温利东 on 2017/11/2 16:38.
  * blog: http://www.jianshu.com/u/99f514ea81b3
  * github: https://github.com/LidongWen
+ * <p>
+ * 无限循环PageAdapter
+ * 1、数量无限大
+ * 2、适配器下标转换真实数据下标
+ * 3、真实下标转换成相应的适配器下标
+ * 4、控制是否能无限循环      当canLoop与getRealCount>1的时候
  */
 
 public class WenldPagerAdapter<T> extends PagerAdapter {
     final String TAG = "WenldPagerAdapter";
+    DataSetObservable mRealCanLoopObservable = new DataSetObservable(); //realCanLoop变化模式
     protected List<T> mDatas;
     Holder holderCreator;
-    private boolean canLoop = true;
-    LoopViewPager wenldViewPager;
+    private boolean canLoop;
+    private boolean realCanLoop = true;
+    ViewPager wenldViewPager;
     private LinkedList<ViewHolder> mViewHolderCache = null;
     private LinkedList<ViewHolder> mViewHolderUsedCache = null;
     private OnPageClickListener onItemClickListener;
 
     @Override
     public int getCount() {
-        return canLoop ? (getRealCount() > 1 ? getRealCount() + 2 : getRealCount()) : getRealCount();
+        return realCanLoop ? Integer.MAX_VALUE : getRealCount();
     }
 
     public int getRealCount() {
@@ -47,10 +57,10 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     public boolean myNotify = false;
 
-    public void notifyDataSetChanged(boolean isRefresh){
-        myNotify=isRefresh;
+    public void notifyDataSetChanged(boolean isRefresh) {
+        myNotify = isRefresh;
         super.notifyDataSetChanged();
-        myNotify=false;
+        myNotify = false;
     }
 
     @Override
@@ -62,14 +72,20 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         }
     }
 
-    public int realPostiton2AdapterPostiton(int position) {
-        if (canLoop) {
-            int realCount = getRealCount();
-            if (realCount == 0)
-                return 0;
-            return position + 1;
+    public int realPostiton2AdapterPosition(int curAdapterPosition, int realPosition) {
+        if (realCanLoop) {
+            int oldRealCur = adapterPostiton2RealDataPosition(curAdapterPosition);
+            int toCur = curAdapterPosition + realPosition - oldRealCur;
+            return toCur;
         }
-        return position;
+        return realPosition >= 0 ? realPosition : 0;
+    }
+
+    public int startAdapterPosition(int dataPosition) {
+        if (realCanLoop) {
+            return getRealCount() * 300 + dataPosition;
+        }
+        return dataPosition;
     }
 
     /**
@@ -82,25 +98,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         int realCount = getRealCount();
         if (realCount == 0)
             return 0;
-
-        if (canLoop) {
-            // 如果只有一个数据
-            if (realCount == 1) {
-                return 0;
-            } else {
-                // 第0个即最后一个
-                if (adapterPosition == 0) {
-                    return realCount - 1;
-                    // 最后一个 即第0个数据
-                } else if (adapterPosition == getCount() - 1) {
-                    return 0;
-                } else {
-                    return adapterPosition - 1;
-                }
-            }
-        }
-        int realPosition = adapterPosition % realCount;
-        return realPosition;
+        return adapterPosition % realCount;
     }
 
     /**
@@ -148,13 +146,18 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
 
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
+        boolean loop = canLoop ? (getRealCount() > 1 ? true : false) : false;
+        if (realCanLoop ^ loop) {
+            realCanLoop = loop;
+            mRealCanLoopObservable.notifyChanged();
+        }
     }
 
     public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public void setViewPager(LoopViewPager viewPager) {
+    public void setViewPager(ViewPager viewPager) {
         this.wenldViewPager = viewPager;
     }
 
@@ -162,15 +165,18 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         this.holderCreator = holderCreator;
         mViewHolderCache = new LinkedList<>();
         mViewHolderUsedCache = new LinkedList<>();
+        setCanLoop(true);
     }
 
     private WenldPagerAdapter(Holder holderCreator, List<T> datas) {
         this.holderCreator = holderCreator;
         this.mDatas = datas;
+        setCanLoop(true);
     }
 
     public void setmDatas(List<T> mDatas) {
         this.mDatas = mDatas;
+        setCanLoop(canLoop);
     }
 
     public List<T> getmDatas() {
@@ -200,7 +206,7 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         }
 
         if (holder == null) {
-            holder = holderCreator.createView(wenldViewPager.getContext(), container, realPosition,viewType);
+            holder = holderCreator.createView(wenldViewPager.getContext(), container, realPosition, viewType);
         }
         mViewHolderUsedCache.add(holder);
         holder.getConvertView().setOnClickListener(new View.OnClickListener() {
@@ -221,4 +227,13 @@ public class WenldPagerAdapter<T> extends PagerAdapter {
         holder.setPosition(position);
         return holder.getConvertView();
     }
+
+    public boolean isRealCanLoop() {
+        return realCanLoop;
+    }
+
+    public void registerRealCanLoopObserver(DataSetObserver observer) {
+        mRealCanLoopObservable.registerObserver(observer);
+    }
+
 }

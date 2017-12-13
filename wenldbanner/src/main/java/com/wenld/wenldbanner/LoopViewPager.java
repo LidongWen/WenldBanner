@@ -1,6 +1,7 @@
 package com.wenld.wenldbanner;
 
 import android.content.Context;
+import android.database.DataSetObserver;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
@@ -31,8 +32,21 @@ public class LoopViewPager extends ViewPager {
         mAdapter.setCanLoop(canLoop);
         mAdapter.setViewPager(this);
         super.setAdapter(mAdapter);
+        setSuperCurrentItem(mAdapter.startAdapterPosition(0), false);
 
-        setCurrentItem(0, false);
+        mAdapter.registerRealCanLoopObserver(new DataSetObserver() {
+            @Override
+            public void onChanged() {
+                int cur = getCurrentItem();
+                mAdapter.notifyDataSetChanged(true);
+                setSuperCurrentItem(mAdapter.startAdapterPosition(cur), false);
+            }
+
+            @Override
+            public void onInvalidated() {
+                super.onInvalidated();
+            }
+        });
     }
 
     public boolean isTouchScroll() {
@@ -46,12 +60,16 @@ public class LoopViewPager extends ViewPager {
 
     @Override
     public void setCurrentItem(int item) {
-        super.setCurrentItem(mAdapter.realPostiton2AdapterPostiton(item));
+        super.setCurrentItem(mAdapter.realPostiton2AdapterPosition(getSuperCurrentItem(), item));
+    }
+
+    public void setSuperCurrentItem(int item, boolean smoothScroll) {
+        super.setCurrentItem(item, smoothScroll);
     }
 
     @Override
     public void setCurrentItem(int item, boolean smoothScroll) {
-        super.setCurrentItem(mAdapter.realPostiton2AdapterPostiton(item), smoothScroll);
+        super.setCurrentItem(mAdapter.realPostiton2AdapterPosition(getSuperCurrentItem(), item), smoothScroll);
     }
 
     public int getSuperCurrentItem() {
@@ -144,33 +162,10 @@ public class LoopViewPager extends ViewPager {
                 getmOuterPageChangeListeners().get(i).onPageScrolled(realPosition,
                         positionOffset, positionOffsetPixels);
             }
-//            if (mOuterPageChangeListener != null) {
-//                mOuterPageChangeListener.onPageScrolled(realPosition,
-//                        positionOffset, positionOffsetPixels);
-//                if (realPosition != mAdapter.getRealCount() - 1) {
-//                    mOuterPageChangeListener.onPageScrolled(realPosition,
-//                            positionOffset, positionOffsetPixels);
-//                } else {
-//                    if (positionOffset > .5) {
-//                        mOuterPageChangeListener.onPageScrolled(0, 0, 0);
-//                    } else {
-//                        mOuterPageChangeListener.onPageScrolled(realPosition,
-//                                0, 0);
-//                    }
-//                }
-//            }
         }
 
         @Override
         public void onPageScrollStateChanged(int state) {
-            if (state == SCROLL_STATE_IDLE) {
-                //如果是首尾 就更换位置
-                int currentItem = getSuperCurrentItem();
-                int realAdapterPosition = mAdapter.headFootPosition2AdapterPosition(currentItem);
-                if (currentItem != realAdapterPosition) {
-                    setCurrentItem(getRealItem(currentItem), false);
-                }
-            }
             for (int i = 0; i < getmOuterPageChangeListeners().size(); i++) {
                 getmOuterPageChangeListeners().get(i).onPageScrollStateChanged(state);
             }
@@ -202,15 +197,15 @@ public class LoopViewPager extends ViewPager {
     public void setCanLoop(boolean canLoop) {
         this.canLoop = canLoop;
         if (mAdapter == null) return;
-        int position = getCurrentItem();
 
         mAdapter.setCanLoop(canLoop);
-        mAdapter.notifyDataSetChanged(true);
-        setCurrentItem(position,false);
+
     }
+
     private int getClientWidth() {
         return getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
     }
+
     PageTransformer transformer;
 
     @Override
