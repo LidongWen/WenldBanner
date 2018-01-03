@@ -2,6 +2,7 @@ package com.wenld.wenldbanner01;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioGroup;
@@ -9,6 +10,7 @@ import android.widget.RelativeLayout;
 
 import com.ToxicBakery.viewpager.transforms.ScaleInOutTransformer;
 import com.wenld.wenldbanner.DefaultPageIndicator;
+import com.wenld.wenldbanner.OnPageClickListener;
 import com.wenld.wenldbanner.WenldBanner;
 import com.wenld.wenldbanner01.indicator.CustomIndicator;
 
@@ -17,9 +19,9 @@ public class CommonBannerActivity extends AppCompatActivity {
     DefaultPageIndicator defaultPageIndicator;
 
     CustomIndicator customIndicator;
-    CheckBox cb_loop, cb_autoTurn,cb_touchScroll;
+    CheckBox cb_loop, cb_autoTurn, cb_touchScroll;
     RadioGroup radioGroup;
-    private RadioGroup radioGroup5,radioGroup6;
+    private RadioGroup radioGroup5, radioGroup6;
     private RadioGroup radioGroup2;
     private RadioGroup radioGroup3;
     private RadioGroup radioGroup4;
@@ -38,7 +40,7 @@ public class CommonBannerActivity extends AppCompatActivity {
         radioGroup2 = (RadioGroup) findViewById(R.id.radioGroup2);
         radioGroup3 = (RadioGroup) findViewById(R.id.radioGroup3);
         radioGroup4 = (RadioGroup) findViewById(R.id.radioGroup4);
-        radioGroup6= (RadioGroup) findViewById(R.id.radioGroup6);
+        radioGroup6 = (RadioGroup) findViewById(R.id.radioGroup6);
 
         defaultPageIndicator = new DefaultPageIndicator(this);
         defaultPageIndicator.setPageIndicator(Common.indicatorGrouop);
@@ -143,6 +145,13 @@ public class CommonBannerActivity extends AppCompatActivity {
                         wenldBanner.setScrollDuration(2000);
                         break;
                 }
+            }
+        });
+
+        wenldBanner.setOnItemClickListener(new OnPageClickListener() {
+            @Override
+            public void onItemClick(int i) {
+                Log.e("onItemClick", "" + i);
             }
         });
     }

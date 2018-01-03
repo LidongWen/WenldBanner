@@ -224,7 +224,7 @@ public class LoopViewPager extends ViewPager {
     }
 
     public void setOnItemClickListener(OnPageClickListener onItemClickListener) {
-        if (mAdapter == null)
+        if (mAdapter != null)
             mAdapter.setOnItemClickListener(onItemClickListener);
     }
 }

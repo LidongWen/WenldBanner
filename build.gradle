@@ -7,7 +7,7 @@ buildscript {
         jcenter()
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.0.0-alpha8'
+        classpath 'com.android.tools.build:gradle:3.0.0'
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -30,14 +30,13 @@ task clean(type: Delete) {
 
 ext {
     compileSdkVersion = 25
-    buildToolsVersion = '25.0.2'
+    buildToolsVersion = '26.0.2'
 
-    minSdkVersion = 14
+    minSdkVersion = 16
     targetSdkVersion = 25
 
     supportLibraryVersion = '25.4.0'
     constraintLayoutVersion = '1.0.2'
-//    constraintLayoutVersion='1.0.0-alpha7'
 }
 
 ext.deps = [
